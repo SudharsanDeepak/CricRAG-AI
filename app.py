@@ -1002,9 +1002,59 @@ body::before {
 .gradio-dataframe,
 .gradio-file,
 .gradio-dropdown,
-.gradio-textbox,
-.gradio-radio {
+.gradio-textbox {
     border-radius: 18px !important;
+}
+
+/* Premium Light-Theme Radio Chip styling overrides */
+.gradio-radio,
+.gradio-radio .wrap,
+.gradio-radio .radio-group {
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 14px !important;
+    padding: 6px !important;
+    display: inline-flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    width: 100% !important;
+}
+
+.gradio-radio label,
+.gradio-radio .radio-group label,
+#provider-choice label {
+    background: #FAF7EE !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 10px !important;
+    padding: 10px 14px !important;
+    color: #1B2E3C !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    transition: all 0.18s ease !important;
+}
+
+.gradio-radio label:hover,
+#provider-choice label:hover {
+    border-color: var(--accent) !important;
+    background: #ffffff !important;
+}
+
+.gradio-radio label.selected,
+.gradio-radio label:has(input[type="radio"]:checked),
+#provider-choice label.selected,
+#provider-choice label:has(input[type="radio"]:checked) {
+    background: #35A8E0 !important;
+    color: #ffffff !important;
+    border-color: #35A8E0 !important;
+}
+
+.gradio-radio label span,
+#provider-choice label span {
+    color: inherit !important;
 }
 
 .info-card {
@@ -1382,4 +1432,4 @@ app = gr.mount_gradio_app(
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7861))
     print(f"Starting Unified CricRAG FastAPI + Gradio Web Server on port {port}...")
-    uvicorn.run(app, host="0.0.0.0", port=port, timeout_keep_alive=60)
+    uvicorn.run(app, host="0.0.0.0", port=port, timeout_keep_alive=60, log_level="debug")
