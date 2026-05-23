@@ -45,7 +45,6 @@ threading.Thread(target=init_rag_async, daemon=True).start()
 SETTINGS_FILE = "settings.json"
 DEFAULT_SETTINGS = {
     "provider": "Google Gemini API" if os.environ.get("GEMINI_API_KEY") else "Offline Simulator (Pre-compiled & Heuristics)",
-    "gemini_key": os.environ.get("GEMINI_API_KEY", ""),
     "ollama_endpoint": os.environ.get("OLLAMA_ENDPOINT", "http://localhost:11434")
 }
 
@@ -58,10 +57,9 @@ def load_settings():
             pass
     return DEFAULT_SETTINGS
 
-def save_settings(provider, gemini_key, ollama_endpoint):
+def save_settings(provider, ollama_endpoint):
     settings = {
         "provider": provider,
-        "gemini_key": gemini_key,
         "ollama_endpoint": ollama_endpoint
     }
     try:
@@ -106,7 +104,7 @@ def chat_response(message, history, mode, settings_state):
                 return "", history, "Failed to initialize vector database. Make sure requirements are fully installed."
             
     provider = settings_state.get("provider", "Offline Simulator (Pre-compiled & Heuristics)")
-    api_key = settings_state.get("gemini_key", "")
+    api_key = os.environ.get("GEMINI_API_KEY", "")
     endpoint = settings_state.get("ollama_endpoint", "http://localhost:11434")
 
     gemini_model_name = ""
@@ -1250,14 +1248,6 @@ def build_app():
                         elem_id="provider-choice"
                     )
                     
-                    gemini_input = gr.Textbox(
-                        value=saved_settings["gemini_key"],
-                        placeholder="AIzaSy...",
-                        label="Google Gemini API Key (Required for Gemini)",
-                        type="password",
-                        elem_id="gemini-input"
-                    )
-                    
                     ollama_input = gr.Textbox(
                         value=saved_settings["ollama_endpoint"],
                         placeholder="http://localhost:11434",
@@ -1269,18 +1259,17 @@ def build_app():
                     save_status = gr.Markdown("")
                     
                     # Update State and Save settings
-                    def apply_save_settings(provider, g_key, o_url):
-                        msg = save_settings(provider, g_key, o_url)
+                    def apply_save_settings(provider, o_url):
+                        msg = save_settings(provider, o_url)
                         new_state = {
                             "provider": provider,
-                            "gemini_key": g_key,
                             "ollama_endpoint": o_url
                         }
                         return new_state, msg
                         
                     save_btn.click(
                         fn=apply_save_settings,
-                        inputs=[provider_choice, gemini_input, ollama_input],
+                        inputs=[provider_choice, ollama_input],
                         outputs=[settings_state, save_status]
                     )
 
