@@ -10,17 +10,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #050816;
-            --panel: rgba(11, 16, 32, 0.74);
-            --panel-strong: rgba(8, 12, 26, 0.92);
-            --line: rgba(148, 163, 184, 0.14);
-            --line-strong: rgba(148, 163, 184, 0.22);
-            --text: #eef2ff;
-            --muted: #94a3b8;
-            --accent: #5eead4;
-            --accent-2: #76d39b;
-            --accent-3: #f4d06f;
-            --shadow: 0 28px 80px rgba(0, 0, 0, 0.36);
+            --bg: #FAF7EE;
+            --panel: rgba(255, 255, 255, 0.85);
+            --panel-strong: #ffffff;
+            --line: rgba(53, 168, 224, 0.18);
+            --line-strong: rgba(53, 168, 224, 0.32);
+            --text: #1B2E3C;
+            --muted: #5A7184;
+            --accent: #35A8E0;
+            --accent-2: #4AE2B6;
+            --accent-3: #F4D068;
+            --danger: #FE5F55;
+            --shadow: 0 20px 50px rgba(27, 46, 60, 0.06);
         }
 
         * {
@@ -38,10 +39,10 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--text);
             background:
-                radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.18), transparent 24%),
-                radial-gradient(circle at 100% 0%, rgba(94, 234, 212, 0.12), transparent 22%),
-                radial-gradient(circle at 100% 100%, rgba(245, 158, 11, 0.10), transparent 24%),
-                linear-gradient(180deg, #050816 0%, #060b18 100%);
+                radial-gradient(circle at 12% 8%, rgba(53, 168, 224, 0.15), transparent 26%),
+                radial-gradient(circle at 80% 10%, rgba(74, 226, 182, 0.12), transparent 24%),
+                radial-gradient(circle at bottom right, rgba(244, 208, 104, 0.08), transparent 28%),
+                linear-gradient(180deg, #FAF7EE 0%, #FAF7EE 100%);
             overflow-x: hidden;
         }
 
@@ -49,11 +50,11 @@
             content: '';
             position: fixed;
             inset: 0;
-            background-image: linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(53, 168, 224, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(53, 168, 224, 0.06) 1px, transparent 1px);
             background-size: 48px 48px;
             mask-image: radial-gradient(circle at center, black 32%, transparent 100%);
             pointer-events: none;
-            opacity: 0.45;
+            opacity: 0.35;
         }
 
         ::-webkit-scrollbar {
@@ -62,16 +63,16 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.56);
+            background: rgba(255, 255, 255, 0.4);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, rgba(96, 165, 250, 0.72), rgba(94, 234, 212, 0.72));
+            background: linear-gradient(180deg, rgba(53, 168, 224, 0.6), rgba(74, 226, 182, 0.6));
             border-radius: 999px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, rgba(96, 165, 250, 1), rgba(94, 234, 212, 1));
+            background: linear-gradient(180deg, rgba(53, 168, 224, 0.95), rgba(74, 226, 182, 0.95));
         }
 
         .page {
@@ -91,7 +92,7 @@
             margin-bottom: 18px;
             border: 1px solid var(--line);
             border-radius: 22px;
-            background: rgba(8, 12, 26, 0.68);
+            background: rgba(255, 255, 255, 0.82);
             backdrop-filter: blur(18px);
             box-shadow: var(--shadow);
         }
@@ -111,9 +112,9 @@
             border-radius: 14px;
             display: grid;
             place-items: center;
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.22), rgba(94, 234, 212, 0.18));
-            border: 1px solid rgba(148, 163, 184, 0.16);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, rgba(53, 168, 224, 0.18), rgba(74, 226, 182, 0.14));
+            border: 1px solid var(--line);
+            box-shadow: 0 10px 24px rgba(27, 46, 60, 0.05);
         }
 
         .brand-copy {
@@ -124,7 +125,7 @@
 
         .brand-copy span:first-child {
             font-size: 1.05rem;
-            color: #f8fafc;
+            color: var(--text);
         }
 
         .brand-copy span:last-child {
@@ -139,9 +140,9 @@
             gap: 8px;
             padding: 10px 14px;
             border-radius: 999px;
-            color: #d1fae5;
-            background: rgba(16, 185, 129, 0.08);
-            border: 1px solid rgba(16, 185, 129, 0.18);
+            color: #047857;
+            background: rgba(74, 226, 182, 0.12);
+            border: 1px solid rgba(74, 226, 182, 0.28);
             font-size: 0.86rem;
             font-weight: 700;
         }
@@ -150,15 +151,15 @@
             width: 8px;
             height: 8px;
             border-radius: 999px;
-            background: #22c55e;
-            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+            background: #4AE2B6;
+            box-shadow: 0 0 0 0 rgba(74, 226, 182, 0.5);
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 226, 182, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(74, 226, 182, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 226, 182, 0); }
         }
 
         .hero {
@@ -191,7 +192,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.16), transparent 24%);
+            background: radial-gradient(circle at top right, rgba(53, 168, 224, 0.12), transparent 24%);
             pointer-events: none;
         }
 
@@ -201,9 +202,9 @@
             gap: 8px;
             padding: 8px 12px;
             border-radius: 999px;
-            background: rgba(94, 234, 212, 0.08);
-            border: 1px solid rgba(94, 234, 212, 0.18);
-            color: #d1fae5;
+            background: rgba(74, 226, 182, 0.08);
+            border: 1px solid rgba(74, 226, 182, 0.18);
+            color: #047857;
             font-size: 0.78rem;
             font-weight: 800;
             letter-spacing: 0.08em;
@@ -225,7 +226,7 @@
         }
 
         h1 span {
-            background: linear-gradient(135deg, #fff8eb 0%, #d6ad60 45%, #76d39b 100%);
+            background: linear-gradient(135deg, #35A8E0 0%, #F4D068 50%, #4AE2B6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -235,7 +236,7 @@
             max-width: 66ch;
             font-size: 1.02rem;
             line-height: 1.7;
-            color: #cbd5e1;
+            color: var(--muted);
             position: relative;
             z-index: 1;
         }
@@ -256,8 +257,8 @@
             padding: 10px 12px;
             border-radius: 999px;
             border: 1px solid var(--line);
-            background: rgba(8, 12, 26, 0.72);
-            color: #dbe4f0;
+            background: rgba(255, 255, 255, 0.85);
+            color: var(--text);
             font-size: 0.85rem;
             font-weight: 600;
         }
@@ -289,13 +290,13 @@
         .mini-metric {
             padding: 12px 14px;
             border-radius: 18px;
-            background: rgba(8, 12, 26, 0.62);
+            background: rgba(255, 255, 255, 0.6);
             border: 1px solid var(--line);
         }
 
         .mini-metric strong {
             display: block;
-            color: #f8fafc;
+            color: var(--text);
             font-size: 1rem;
             margin-bottom: 4px;
         }
@@ -323,7 +324,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.06), transparent 45%);
+            background: linear-gradient(135deg, rgba(53, 168, 224, 0.06), transparent 45%);
             pointer-events: none;
         }
 
@@ -343,14 +344,14 @@
             font-size: 2rem;
             font-weight: 800;
             letter-spacing: -0.05em;
-            color: #f8fafc;
+            color: var(--text);
             position: relative;
             z-index: 1;
         }
 
         .stat-text {
             margin-top: 6px;
-            color: #cbd5e1;
+            color: var(--muted);
             font-size: 0.92rem;
             line-height: 1.6;
             position: relative;
@@ -371,7 +372,7 @@
             border-radius: 20px;
             background: transparent;
             box-shadow: 0 28px 80px rgba(0,0,0,0.45);
-            border: 1px solid rgba(214, 181, 110, 0.06);
+            border: 1px solid var(--line);
         }
 
         .info-grid {
@@ -390,12 +391,12 @@
             font-size: 1.12rem;
             font-weight: 800;
             margin-bottom: 12px;
-            color: #f8fafc;
+            color: var(--text);
         }
 
         .info-card p,
         .info-card li {
-            color: #cbd5e1;
+            color: var(--muted);
             line-height: 1.7;
             font-size: 0.94rem;
         }
@@ -421,7 +422,7 @@
         }
 
         .info-card strong {
-            color: #f8fafc;
+            color: var(--text);
         }
 
         footer {
@@ -477,20 +478,20 @@
             <div class="brand">
                                 <div class="brand-mark">
                                         <!-- Inline crest SVG -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="42" height="42" style="display:block;border-radius:10px;">
-                                            <defs>
-                                                <linearGradient id="g1" x1="0" x2="1">
-                                                    <stop offset="0" stop-color="#76d39b"/>
-                                                    <stop offset="1" stop-color="#f4d06f"/>
-                                                </linearGradient>
-                                            </defs>
-                                            <rect width="120" height="120" rx="18" fill="#061023"/>
-                                            <path d="M20 40 C36 18, 84 18, 100 40 L100 80 C84 102, 36 102, 20 80 Z" fill="url(#g1)" opacity="0.98"/>
-                                            <g transform="translate(40,36)">
-                                                <circle cx="20" cy="18" r="10" fill="#061023"/>
-                                                <rect x="6" y="38" width="28" height="6" rx="3" fill="#061023"/>
-                                            </g>
-                                        </svg>
+                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="42" height="42" style="display:block;border-radius:10px;">
+                                             <defs>
+                                                 <linearGradient id="g1" x1="0" x2="1">
+                                                     <stop offset="0" stop-color="#4AE2B6"/>
+                                                     <stop offset="1" stop-color="#F4D068"/>
+                                                 </linearGradient>
+                                             </defs>
+                                             <rect width="120" height="120" rx="18" fill="#1B2E3C"/>
+                                             <path d="M20 40 C36 18, 84 18, 100 40 L100 80 C84 102, 36 102, 20 80 Z" fill="url(#g1)" opacity="0.98"/>
+                                             <g transform="translate(40,36)">
+                                                 <circle cx="20" cy="18" r="10" fill="#1B2E3C"/>
+                                                 <rect x="6" y="38" width="28" height="6" rx="3" fill="#1B2E3C"/>
+                                             </g>
+                                         </svg>
                                 </div>
                 <div class="brand-copy">
                     <span>CricRAG AI</span>
@@ -508,33 +509,33 @@
                     <!-- stadium backdrop -->
                                 <div style="position:absolute;inset:auto -40px -40px 50%;transform:translateX(-20%);opacity:0.12;pointer-events:none;z-index:0;">
                                         <!-- Inline stadium SVG (decorative) -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMid slice" style="width:980px;height:auto;display:block;filter:blur(4px) saturate(1.05);">
-                                            <defs>
-                                                <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
-                                                    <stop offset="0" stop-color="#07102a"/>
-                                                    <stop offset="1" stop-color="#071826"/>
-                                                </linearGradient>
-                                                <linearGradient id="flood" x1="0" x2="1">
-                                                    <stop offset="0" stop-color="#3b82f6" stop-opacity="0.12"/>
-                                                    <stop offset="1" stop-color="#34d399" stop-opacity="0.07"/>
-                                                </linearGradient>
-                                            </defs>
-                                            <rect width="1400" height="300" fill="url(#sky)"/>
-                                            <g fill="url(#flood)">
-                                                <ellipse cx="700" cy="230" rx="600" ry="60" />
-                                                <ellipse cx="700" cy="240" rx="500" ry="40" />
-                                            </g>
-                                            <g fill="#0b1220" opacity="0.85">
-                                                <rect x="0" y="120" width="1400" height="30"/>
-                                                <rect x="0" y="90" width="1400" height="16"/>
-                                            </g>
-                                            <g fill="#0ea5a5" opacity="0.08">
-                                                <rect x="90" y="70" width="1220" height="36" rx="8" />
-                                            </g>
-                                            <g transform="translate(80,40)" fill="#cbd5e1" opacity="0.06">
-                                                <text x="0" y="200" font-size="90" font-family="Outfit, Arial">STADIUM</text>
-                                            </g>
-                                        </svg>
+                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMid slice" style="width:980px;height:auto;display:block;filter:blur(4px) saturate(1.05);">
+                                             <defs>
+                                                 <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+                                                     <stop offset="0" stop-color="#35A8E0" stop-opacity="0.18"/>
+                                                     <stop offset="1" stop-color="#FAF7EE"/>
+                                                 </linearGradient>
+                                                 <linearGradient id="flood" x1="0" x2="1">
+                                                     <stop offset="0" stop-color="#35A8E0" stop-opacity="0.2"/>
+                                                     <stop offset="1" stop-color="#4AE2B6" stop-opacity="0.15"/>
+                                                 </linearGradient>
+                                             </defs>
+                                             <rect width="1400" height="300" fill="url(#sky)"/>
+                                             <g fill="url(#flood)">
+                                                 <ellipse cx="700" cy="230" rx="600" ry="60" />
+                                                 <ellipse cx="700" cy="240" rx="500" ry="40" />
+                                             </g>
+                                             <g fill="#1B2E3C" opacity="0.08">
+                                                 <rect x="0" y="120" width="1400" height="30"/>
+                                                 <rect x="0" y="90" width="1400" height="16"/>
+                                             </g>
+                                             <g fill="#4AE2B6" opacity="0.1">
+                                                 <rect x="90" y="70" width="1220" height="36" rx="8" />
+                                             </g>
+                                             <g transform="translate(80,40)" fill="#35A8E0" opacity="0.08">
+                                                 <text x="0" y="200" font-size="90" font-family="Outfit, Arial">STADIUM</text>
+                                             </g>
+                                         </svg>
                                 </div>
                 <div class="eyebrow">Offline-first cricket assistant</div>
                 <h1>Search <span>IPL knowledge</span> with a premium, guided experience</h1>
@@ -594,34 +595,34 @@
         <section class="app-shell">
                         <div id="stadium-interactive" style="position:relative;overflow:hidden;border-radius:20px;">
                                 <!-- Inline decorative stadium SVG to avoid external asset requests -->
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMid slice" style="width:100%;height:360px;object-fit:cover;display:block;filter:contrast(0.85) saturate(1.05);">
-                                    <defs>
-                                        <linearGradient id="sky2" x1="0" x2="0" y1="0" y2="1">
-                                            <stop offset="0" stop-color="#07102a"/>
-                                            <stop offset="1" stop-color="#071826"/>
-                                        </linearGradient>
-                                        <linearGradient id="flood2" x1="0" x2="1">
-                                            <stop offset="0" stop-color="#3b82f6" stop-opacity="0.12"/>
-                                            <stop offset="1" stop-color="#34d399" stop-opacity="0.07"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <rect width="1400" height="300" fill="url(#sky2)"/>
-                                    <g fill="url(#flood2)">
-                                        <ellipse cx="700" cy="230" rx="600" ry="60" />
-                                        <ellipse cx="700" cy="240" rx="500" ry="40" />
-                                    </g>
-                                    <g fill="#0b1220" opacity="0.85">
-                                        <rect x="0" y="120" width="1400" height="30"/>
-                                        <rect x="0" y="90" width="1400" height="16"/>
-                                    </g>
-                                </svg>
+                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMid slice" style="width:100%;height:360px;object-fit:cover;display:block;filter:contrast(0.85) saturate(1.05);">
+                                     <defs>
+                                         <linearGradient id="sky2" x1="0" x2="0" y1="0" y2="1">
+                                             <stop offset="0" stop-color="#35A8E0" stop-opacity="0.22"/>
+                                             <stop offset="1" stop-color="#FAF7EE"/>
+                                         </linearGradient>
+                                         <linearGradient id="flood2" x1="0" x2="1">
+                                             <stop offset="0" stop-color="#35A8E0" stop-opacity="0.2"/>
+                                             <stop offset="1" stop-color="#4AE2B6" stop-opacity="0.15"/>
+                                         </linearGradient>
+                                     </defs>
+                                     <rect width="1400" height="300" fill="url(#sky2)"/>
+                                     <g fill="url(#flood2)">
+                                         <ellipse cx="700" cy="230" rx="600" ry="60" />
+                                         <ellipse cx="700" cy="240" rx="500" ry="40" />
+                                     </g>
+                                     <g fill="#1B2E3C" opacity="0.08">
+                                         <rect x="0" y="120" width="1400" height="30"/>
+                                         <rect x="0" y="90" width="1400" height="16"/>
+                                     </g>
+                                 </svg>
                 <div style="position:absolute;left:24px;top:24px;right:24px;bottom:24px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;pointer-events:none;">
-                    <div style="max-width:680px;pointer-events:auto;background:linear-gradient(180deg, rgba(6,16,20,0.48), rgba(6,16,20,0.28));padding:20px;border-radius:14px;border:1px solid rgba(214,181,110,0.05);backdrop-filter:blur(6px);">
-                        <div style="font-family:Outfit, sans-serif;font-weight:800;font-size:1.6rem;color:#f8fafc;">Live Stadium Mode</div>
-                        <div style="margin-top:8px;color:#cbd5e1;line-height:1.5;">Explore the curated cricket intelligence workspace. Open the assistant to ask questions about players, seasons, records, and rules.</div>
+                    <div style="max-width:680px;pointer-events:auto;background:rgba(255, 255, 255, 0.92);padding:20px;border-radius:14px;border:1px solid var(--line);backdrop-filter:blur(8px);box-shadow: 0 10px 30px rgba(27, 46, 60, 0.05);">
+                        <div style="font-family:Outfit, sans-serif;font-weight:800;font-size:1.6rem;color:var(--text);">Live Stadium Mode</div>
+                        <div style="margin-top:8px;color:var(--muted);line-height:1.5;">Explore the curated cricket intelligence workspace. Open the assistant to ask questions about players, seasons, records, and rules.</div>
                         <div style="margin-top:12px;display:flex;gap:10px;">
-                            <a id="open-assistant-btn" href="/chat_interface/" target="_blank" style="pointer-events:auto;display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:linear-gradient(90deg,#76d39b,#f4d06f);color:#061023;font-weight:800;text-decoration:none;box-shadow:0 12px 30px rgba(6,18,36,0.45);">Open Assistant</a>
-                            <button id="preview-insights" style="pointer-events:auto;padding:10px 14px;border-radius:999px;background:transparent;border:1px solid rgba(148,163,184,0.06);color:#dbe4f0;font-weight:700;">Preview Insights</button>
+                            <a id="open-assistant-btn" href="/chat_interface/" target="_blank" style="pointer-events:auto;display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:linear-gradient(90deg,#35A8E0,#4AE2B6);color:#ffffff;font-weight:800;text-decoration:none;box-shadow:0 8px 24px rgba(53, 168, 224, 0.2);">Open Assistant</a>
+                            <button id="preview-insights" style="pointer-events:auto;padding:10px 14px;border-radius:999px;background:rgba(255, 255, 255, 0.8);border:1px solid var(--line);color:var(--text);font-weight:700;">Preview Insights</button>
                         </div>
                     </div>
                 </div>
@@ -668,20 +669,21 @@
                 preview.style.left = '50%';
                 preview.style.top = '50%';
                 preview.style.transform = 'translate(-50%,-50%)';
-                preview.style.background = 'linear-gradient(180deg, rgba(6,16,20,0.96), rgba(6,16,20,0.92))';
-                preview.style.border = '1px solid rgba(148,163,184,0.06)';
+                preview.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95))';
+                preview.style.border = '1px solid var(--line)';
                 preview.style.padding = '18px';
                 preview.style.borderRadius = '12px';
-                preview.style.boxShadow = '0 40px 120px rgba(4,8,16,0.6)';
+                preview.style.boxShadow = '0 30px 80px rgba(27,46,60,0.15)';
                 preview.style.zIndex = 9999;
-                preview.innerHTML = '<div style="font-weight:800;font-size:1.05rem;color:#f8fafc;margin-bottom:8px">Quick Insights</div><div style="color:#cbd5e1;line-height:1.5">Top players: Virat Kohli (8004 runs), Rohit Sharma (6628 runs), MS Dhoni (5243 runs). Most sixes: Chris Gayle (357). Ask the assistant for deeper analysis.</div>';
+                preview.innerHTML = '<div style="font-weight:800;font-size:1.05rem;color:var(--text);margin-bottom:8px">Quick Insights</div><div style="color:var(--muted);line-height:1.5">Top players: Virat Kohli (8004 runs), Rohit Sharma (6628 runs), MS Dhoni (5243 runs). Most sixes: Chris Gayle (357). Ask the assistant for deeper analysis.</div>';
                 const close = document.createElement('button');
                 close.textContent = 'Close';
                 close.style.marginTop = '12px';
                 close.style.padding = '8px 12px';
                 close.style.borderRadius = '8px';
                 close.style.border = 'none';
-                close.style.background = '#76d39b';
+                close.style.background = '#35A8E0';
+                close.style.color = '#ffffff';
                 close.style.fontWeight = 800;
                 close.addEventListener('click', function(){ document.body.removeChild(preview); });
                 preview.appendChild(close);

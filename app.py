@@ -270,19 +270,19 @@ def search_explorer_ui(query_text):
 # Custom Premium CSS for styling the UI
 CUSTOM_CSS = """
 :root {
-    --bg: #07130d;
-    --bg-2: #0d1f16;
-    --panel: rgba(12, 26, 20, 0.76);
-    --panel-strong: rgba(8, 18, 14, 0.94);
-    --line: rgba(214, 181, 110, 0.18);
-    --line-strong: rgba(214, 181, 110, 0.28);
-    --text: #f7f1e7;
-    --muted: #a8bbad;
-    --accent: #d6ad60;
-    --accent-2: #76d39b;
-    --accent-3: #f4d06f;
-    --danger: #ef7a67;
-    --glow: rgba(214, 181, 110, 0.16);
+    --bg: #FAF7EE;
+    --bg-2: #F5EFE2;
+    --panel: rgba(255, 255, 255, 0.82);
+    --panel-strong: #ffffff;
+    --line: rgba(53, 168, 224, 0.18);
+    --line-strong: rgba(53, 168, 224, 0.32);
+    --text: #1B2E3C;
+    --muted: #5A7184;
+    --accent: #35A8E0;
+    --accent-2: #4AE2B6;
+    --accent-3: #F4D068;
+    --danger: #FE5F55;
+    --glow: rgba(53, 168, 224, 0.12);
 }
 
 * {
@@ -291,10 +291,10 @@ CUSTOM_CSS = """
 
 body {
     background:
-        radial-gradient(circle at 12% 8%, rgba(214, 181, 110, 0.16), transparent 26%),
-        radial-gradient(circle at 80% 10%, rgba(118, 211, 155, 0.12), transparent 24%),
-        radial-gradient(circle at bottom right, rgba(244, 208, 111, 0.08), transparent 28%),
-        linear-gradient(180deg, #06110b 0%, #091710 52%, #040806 100%) !important;
+        radial-gradient(circle at 12% 8%, rgba(53, 168, 224, 0.15), transparent 26%),
+        radial-gradient(circle at 80% 10%, rgba(74, 226, 182, 0.12), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(244, 208, 104, 0.08), transparent 28%),
+        linear-gradient(180deg, #FAF7EE 0%, #FAF7EE 100%) !important;
     color: var(--text) !important;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
@@ -309,13 +309,12 @@ body::before {
     position: fixed;
     inset: 0;
     background-image:
-        linear-gradient(rgba(214, 181, 110, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(214, 181, 110, 0.05) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(118, 211, 155, 0.02), transparent 18%, transparent 82%, rgba(118, 211, 155, 0.03));
-    background-size: 72px 72px, 72px 72px, 100% 100%;
+        linear-gradient(rgba(53, 168, 224, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(53, 168, 224, 0.06) 1px, transparent 1px);
+    background-size: 72px 72px, 72px 72px;
     mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
     pointer-events: none;
-    opacity: 0.42;
+    opacity: 0.35;
 }
 
 ::-webkit-scrollbar {
@@ -324,16 +323,16 @@ body::before {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.5);
+    background: rgba(255, 255, 255, 0.4);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(96, 165, 250, 0.7), rgba(94, 234, 212, 0.7));
+    background: linear-gradient(180deg, rgba(53, 168, 224, 0.6), rgba(74, 226, 182, 0.6));
     border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgba(96, 165, 250, 0.95), rgba(94, 234, 212, 0.95));
+    background: linear-gradient(180deg, rgba(53, 168, 224, 0.95), rgba(74, 226, 182, 0.95));
 }
 
 .app-shell {
@@ -344,12 +343,12 @@ body::before {
 
 .hero-band {
     background:
-        linear-gradient(135deg, rgba(214, 181, 110, 0.16), rgba(118, 211, 155, 0.08)),
-        rgba(8, 18, 14, 0.88);
+        linear-gradient(135deg, rgba(244, 208, 104, 0.12), rgba(74, 226, 182, 0.08)),
+        #ffffff;
     border: 1px solid var(--line);
     border-radius: 28px;
     padding: 24px 26px;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 20px 50px rgba(27, 46, 60, 0.06);
     margin-bottom: 18px;
     position: relative;
     overflow: hidden;
@@ -360,8 +359,8 @@ body::before {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at top right, rgba(214, 181, 110, 0.18), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(118, 211, 155, 0.08), transparent 24%);
+        radial-gradient(circle at top right, rgba(244, 208, 104, 0.1), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(74, 226, 182, 0.06), transparent 24%);
     pointer-events: none;
 }
 
@@ -369,9 +368,9 @@ body::before {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    border: 1px solid rgba(214, 181, 110, 0.22);
-    background: rgba(214, 181, 110, 0.08);
-    color: #f5e2b2;
+    border: 1px solid rgba(53, 168, 224, 0.25);
+    background: rgba(53, 168, 224, 0.08);
+    color: #2086C2;
     border-radius: 999px;
     padding: 7px 12px;
     font-size: 0.78rem;
@@ -395,7 +394,7 @@ body::before {
 }
 
 .hero-title span {
-    background: linear-gradient(135deg, #fff8eb, #d6ad60 48%, #76d39b 100%);
+    background: linear-gradient(135deg, #1B2E3C, #35A8E0 48%, #4AE2B6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -403,7 +402,7 @@ body::before {
 .hero-copy {
     margin-top: 12px;
     max-width: 72ch;
-    color: #d7e0d9;
+    color: var(--muted);
     font-size: 1rem;
     line-height: 1.7;
     position: relative;
@@ -425,7 +424,7 @@ body::before {
     gap: 8px;
     padding: 9px 12px;
     border-radius: 999px;
-    background: rgba(7, 16, 12, 0.72);
+    background: rgba(255, 255, 255, 0.85);
     border: 1px solid var(--line);
     color: var(--muted);
     font-size: 0.85rem;
@@ -448,7 +447,7 @@ body::before {
     border: 1px solid var(--line);
     border-radius: 22px;
     padding: 18px 18px 16px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 12px 30px rgba(27, 46, 60, 0.04);
     backdrop-filter: blur(18px);
 }
 
@@ -466,12 +465,12 @@ body::before {
     font-size: 1.55rem;
     font-weight: 800;
     letter-spacing: -0.04em;
-    color: #f8fafc;
+    color: var(--text);
 }
 
 .stat-text {
     margin-top: 6px;
-    color: #d7e0d9;
+    color: var(--muted);
     font-size: 0.9rem;
     line-height: 1.55;
 }
@@ -488,7 +487,7 @@ body::before {
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 26px;
-    box-shadow: 0 24px 52px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 12px 30px rgba(27, 46, 60, 0.04);
     backdrop-filter: blur(18px);
     overflow: hidden;
 }
@@ -508,7 +507,7 @@ body::before {
 .rail-card {
     border-radius: 22px;
     border: 1px solid var(--line);
-    background: linear-gradient(180deg, rgba(8, 18, 14, 0.94), rgba(8, 18, 14, 0.72));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
     padding: 18px;
 }
 
@@ -519,8 +518,8 @@ body::before {
     gap: 18px;
     margin-bottom: 14px;
     background:
-        linear-gradient(135deg, rgba(214, 181, 110, 0.08), rgba(118, 211, 155, 0.05)),
-        rgba(8, 18, 14, 0.9);
+        linear-gradient(135deg, rgba(244, 208, 104, 0.1), rgba(74, 226, 182, 0.06)),
+        #ffffff;
 }
 
 .stage-label,
@@ -530,9 +529,9 @@ body::before {
     gap: 8px;
     padding: 7px 12px;
     border-radius: 999px;
-    border: 1px solid rgba(214, 181, 110, 0.18);
-    background: rgba(214, 181, 110, 0.08);
-    color: #f5e2b2;
+    border: 1px solid rgba(53, 168, 224, 0.25);
+    background: rgba(53, 168, 224, 0.08);
+    color: #2086C2;
     font-size: 0.74rem;
     font-weight: 800;
     letter-spacing: 0.1em;
@@ -544,7 +543,7 @@ body::before {
     margin-top: 10px;
     font-family: 'Outfit', sans-serif;
     letter-spacing: -0.04em;
-    color: #f8fafc;
+    color: var(--text);
 }
 
 .stage-banner h2 {
@@ -555,7 +554,7 @@ body::before {
 .rail-card p,
 .rail-card li {
     margin-top: 10px;
-    color: #d2ddd5;
+    color: var(--muted);
     line-height: 1.65;
     font-size: 0.94rem;
 }
@@ -574,8 +573,8 @@ body::before {
     padding: 10px 12px;
     border-radius: 18px;
     border: 1px solid var(--line);
-    background: rgba(7, 16, 12, 0.7);
-    color: #e8ece5;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text);
     font-weight: 700;
     font-size: 0.84rem;
 }
@@ -589,9 +588,9 @@ body::before {
 .prompt-strip button {
     flex: 1 1 180px;
     min-height: 44px;
-    background: rgba(7, 16, 12, 0.8) !important;
-    color: #edf2e9 !important;
-    border: 1px solid rgba(214, 181, 110, 0.18) !important;
+    background: #ffffff !important;
+    color: var(--text) !important;
+    border: 1px solid var(--line) !important;
     border-radius: 16px !important;
     font-size: 0.86rem !important;
     font-weight: 700 !important;
@@ -599,8 +598,8 @@ body::before {
 
 .prompt-strip button:hover {
     transform: translateY(-1px) !important;
-    border-color: rgba(214, 181, 110, 0.34) !important;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 8px 18px rgba(27, 46, 60, 0.06) !important;
 }
 
 .main-card,
@@ -612,12 +611,12 @@ body::before {
 #input-container-row {
     background: var(--panel);
     border: 1px solid var(--line) !important;
-    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28) !important;
+    box-shadow: 0 12px 30px rgba(27, 46, 60, 0.04) !important;
     backdrop-filter: blur(18px);
 }
 
 .tab-nav {
-    background: rgba(7, 16, 12, 0.78) !important;
+    background: #ffffff !important;
     border: 1px solid var(--line) !important;
     border-radius: 22px !important;
     padding: 10px 10px 0 !important;
@@ -640,9 +639,9 @@ body::before {
 }
 
 .tab-nav button.selected {
-    color: #07130d !important;
-    background: linear-gradient(135deg, #d6ad60, #76d39b) !important;
-    box-shadow: 0 10px 24px rgba(214, 181, 110, 0.25) !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #35A8E0, #4AE2B6) !important;
+    box-shadow: 0 8px 18px rgba(53, 168, 224, 0.25) !important;
 }
 
 #chat-header-row {
@@ -672,9 +671,9 @@ body::before {
     border-radius: 24px !important;
     padding: 16px !important;
     overflow: hidden !important;
-    background: linear-gradient(145deg, rgba(8, 18, 14, 0.95), rgba(4, 10, 7, 0.98)) !important;
-    border: 1px solid rgba(214, 181, 110, 0.22) !important;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.05) !important;
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    box-shadow: 0 20px 48px rgba(27, 46, 60, 0.06) !important;
     position: relative !important;
 }
 
@@ -704,7 +703,7 @@ body::before {
 .gradio-chatbot .avatar-container {
     border: 2px solid var(--accent) !important;
     border-radius: 50% !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
     background: var(--bg-2) !important;
     overflow: hidden !important;
 }
@@ -719,29 +718,29 @@ body::before {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* USER Bubble: Elegant Amber/Gold Gradient */
+/* USER Bubble: Elegant Sky Blue Gradient */
 .user,
 .message .user,
 .message-wrap .user,
 [data-testid="user-message"] {
-    background: linear-gradient(135deg, #d6ad60 0%, #bd984e 100%) !important;
-    color: #0d1a12 !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 8px 24px rgba(214, 181, 110, 0.2) !important;
+    background: linear-gradient(135deg, #35A8E0 0%, #2086C2 100%) !important;
+    color: #FAF7EE !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 8px 24px rgba(53, 168, 224, 0.2) !important;
     font-weight: 500 !important;
     border-bottom-right-radius: 4px !important;
 }
 
 .user *, .message .user *, [data-testid="user-message"] * {
-    color: #0d1a12 !important;
+    color: #FAF7EE !important;
 }
 
 .user:hover {
-    box-shadow: 0 12px 30px rgba(214, 181, 110, 0.3) !important;
+    box-shadow: 0 12px 30px rgba(53, 168, 224, 0.3) !important;
     transform: translateY(-1px) !important;
 }
 
-/* BOT / ASSISTANT Bubble: Glassmorphic Dark Emerald */
+/* BOT / ASSISTANT Bubble: Warm Cream */
 .bot,
 .assistant,
 .message .bot,
@@ -749,22 +748,22 @@ body::before {
 .message-wrap .bot,
 .message-wrap .assistant,
 [data-testid="bot-message"] {
-    background: rgba(16, 32, 24, 0.65) !important;
-    color: #e2f1e6 !important;
-    border: 1px solid rgba(214, 181, 110, 0.14) !important;
+    background: #FAF7EE !important;
+    color: var(--text) !important;
+    border: 1px solid var(--line) !important;
     border-left: 4px solid var(--accent) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(27, 46, 60, 0.04) !important;
     border-bottom-left-radius: 4px !important;
 }
 
 .bot *, .assistant *, .message .bot *, .message .assistant *, [data-testid="bot-message"] * {
-    color: #e2f1e6 !important;
+    color: var(--text) !important;
 }
 
 .bot:hover, .assistant:hover {
-    background: rgba(20, 40, 30, 0.75) !important;
-    border-color: rgba(214, 181, 110, 0.28) !important;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3) !important;
+    background: #F3ECE0 !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 6px 18px rgba(27, 46, 60, 0.06) !important;
 }
 
 /* Markdown formatting inside bubbles */
@@ -779,9 +778,9 @@ body::before {
 
 .gradio-chatbot .message pre,
 .gradio-chatbot .message code {
-    background: rgba(0, 0, 0, 0.3) !important;
-    border: 1px solid rgba(214, 181, 110, 0.15) !important;
-    color: #e2f1e6 !important;
+    background: rgba(53, 168, 224, 0.05) !important;
+    border: 1px solid var(--line) !important;
+    color: var(--text) !important;
     border-radius: 8px !important;
     padding: 4px 6px !important;
 }
@@ -798,15 +797,15 @@ body::before {
     border-radius: 28px !important;
     padding: 6px 8px 6px 20px !important;
     margin-top: 18px !important;
-    background: rgba(8, 20, 14, 0.85) !important;
-    border: 1px solid rgba(214, 181, 110, 0.16) !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    box-shadow: 0 12px 30px rgba(27, 46, 60, 0.06) !important;
     transition: border-color 0.25s, box-shadow 0.25s !important;
 }
 
 #input-container-row:focus-within {
-    border-color: rgba(118, 211, 155, 0.45) !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 18px rgba(118, 211, 155, 0.15) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 12px 30px rgba(27, 46, 60, 0.06), 0 0 14px rgba(53, 168, 224, 0.15) !important;
 }
 
 #msg-input {
@@ -836,7 +835,7 @@ body::before {
 }
 
 #msg-input input::placeholder, #msg-input textarea::placeholder {
-    color: rgba(168, 187, 173, 0.6) !important;
+    color: var(--muted) !important;
 }
 
 #submit-btn,
@@ -857,17 +856,17 @@ body::before {
 }
 
 #submit-btn {
-    background: linear-gradient(135deg, #d6ad60 0%, #76d39b 100%) !important;
-    color: #04111d !important;
+    background: linear-gradient(135deg, #35A8E0 0%, #4AE2B6 100%) !important;
+    color: #ffffff !important;
     min-width: 100px !important;
     height: 44px !important;
-    box-shadow: 0 4px 12px rgba(118, 211, 155, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(53, 168, 224, 0.2) !important;
 }
 
 #submit-btn:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 8px 20px rgba(118, 211, 155, 0.35) !important;
-    filter: brightness(1.08) !important;
+    box-shadow: 0 8px 20px rgba(53, 168, 224, 0.35) !important;
+    filter: brightness(1.05) !important;
 }
 
 #submit-btn:active {
@@ -875,9 +874,9 @@ body::before {
 }
 
 #clear-chat-btn {
-    background: rgba(214, 181, 110, 0.06) !important;
-    color: var(--muted) !important;
-    border: 1px solid rgba(214, 181, 110, 0.16) !important;
+    background: rgba(254, 95, 85, 0.06) !important;
+    color: var(--danger) !important;
+    border: 1px solid rgba(254, 95, 85, 0.16) !important;
     border-radius: 999px !important;
     min-width: 92px !important;
     height: 44px !important;
@@ -887,15 +886,15 @@ body::before {
 }
 
 #clear-chat-btn:hover {
-    background: rgba(239, 122, 103, 0.15) !important;
-    color: #ffb3a7 !important;
-    border-color: rgba(239, 122, 103, 0.35) !important;
+    background: var(--danger) !important;
+    color: #ffffff !important;
+    border-color: var(--danger) !important;
     transform: translateY(-1px) !important;
 }
 
 #mode-select {
-    background: rgba(5, 12, 9, 0.85) !important;
-    border: 1px solid rgba(214, 181, 110, 0.16) !important;
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
     border-radius: 999px !important;
     padding: 4px !important;
     display: inline-flex !important;
@@ -934,8 +933,8 @@ body::before {
 
 #mode-select label:has(input[type="radio"]:checked),
 #mode-select label.selected {
-    background: linear-gradient(135deg, #60a5fa, #5eead4) !important;
-    color: #07111f !important;
+    background: linear-gradient(135deg, #35A8E0, #4AE2B6) !important;
+    color: #ffffff !important;
 }
 
 #mode-select label input[type="radio"] {
@@ -960,7 +959,7 @@ body::before {
 .settings-box input,
 .settings-box textarea,
 .settings-box select {
-    background: rgba(8, 12, 26, 0.85) !important;
+    background: #ffffff !important;
     border: 1px solid var(--line) !important;
     color: var(--text) !important;
     border-radius: 14px !important;
@@ -969,8 +968,8 @@ body::before {
 .settings-box input:focus,
 .settings-box textarea:focus,
 .settings-box select:focus {
-    border-color: rgba(96, 165, 250, 0.45) !important;
-    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.12) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(53, 168, 224, 0.12) !important;
 }
 
 .gradio-dataframe,
@@ -991,7 +990,7 @@ body::before {
     font-size: 1.1rem !important;
     font-weight: 800 !important;
     margin-bottom: 12px !important;
-    color: #f8fafc !important;
+    color: var(--text) !important;
 }
 
 .info-card ul {
@@ -999,7 +998,7 @@ body::before {
 }
 
 .info-card li {
-    color: #cbd5e1 !important;
+    color: var(--muted) !important;
     line-height: 1.6 !important;
     margin-bottom: 10px !important;
 }
@@ -1035,6 +1034,7 @@ body::before {
         min-width: 0 !important;
     }
 }
+
 """
 
 APP_HERO_HTML = """
@@ -1074,19 +1074,19 @@ APP_STATS_HTML = """
 """
 
 APP_CHAT_BANNER_HTML = """
-<div class="chat-banner" style="padding:14px 18px;border-radius:12px;margin-bottom:12px;background:linear-gradient(90deg, rgba(7,16,38,0.6), rgba(7,24,38,0.45));border:1px solid rgba(148,163,184,0.04);">
-    <strong style="font-size:0.95rem;">CricRAG Assistant</strong>
-    <div style="font-size:0.86rem;color:rgba(203,213,225,0.85);">Ask about players, seasons, records, or rules — powered by local DB and LLM fallbacks.</div>
+<div class="chat-banner" style="padding:14px 18px;border-radius:12px;margin-bottom:12px;background:linear-gradient(90deg, rgba(53, 168, 224, 0.08), rgba(74, 226, 182, 0.05));border:1px solid var(--line);">
+    <strong style="font-size:0.95rem;color:var(--text);">CricRAG Assistant</strong>
+    <div style="font-size:0.86rem;color:var(--muted);">Ask about players, seasons, records, or rules — powered by local DB and LLM fallbacks.</div>
 </div>
 """
 
 APP_RAIL_HTML = """
 <div class="rail-panel" style="padding:12px;">
-    <div style="font-weight:800;margin-bottom:8px;color:#f8fafc;">Quick Tools</div>
+    <div style="font-weight:800;margin-bottom:8px;color:var(--text);">Quick Tools</div>
     <div style="display:flex;flex-direction:column;gap:8px;">
-        <div style="font-size:0.92rem;color:rgba(203,213,225,0.9);">• Player stats lookup</div>
-        <div style="font-size:0.92rem;color:rgba(203,213,225,0.9);">• Season summaries</div>
-        <div style="font-size:0.92rem;color:rgba(203,213,225,0.9);">• Rules & regulations</div>
+        <div style="font-size:0.92rem;color:var(--muted);">• Player stats lookup</div>
+        <div style="font-size:0.92rem;color:var(--muted);">• Season summaries</div>
+        <div style="font-size:0.92rem;color:var(--muted);">• Rules & regulations</div>
     </div>
 </div>
 """

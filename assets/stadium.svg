@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMid slice">
   <defs>
     <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#07102a"/>
-      <stop offset="1" stop-color="#071826"/>
+      <stop offset="0" stop-color="#35A8E0" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#FAF7EE"/>
     </linearGradient>
     <linearGradient id="flood" x1="0" x2="1">
-      <stop offset="0" stop-color="#3b82f6" stop-opacity="0.12"/>
-      <stop offset="1" stop-color="#34d399" stop-opacity="0.07"/>
+      <stop offset="0" stop-color="#35A8E0" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#4AE2B6" stop-opacity="0.15"/>
     </linearGradient>
   </defs>
   <rect width="1400" height="300" fill="url(#sky)"/>
@@ -14,14 +14,14 @@
     <ellipse cx="700" cy="230" rx="600" ry="60" />
     <ellipse cx="700" cy="240" rx="500" ry="40" />
   </g>
-  <g fill="#0b1220" opacity="0.85">
+  <g fill="#1B2E3C" opacity="0.08">
     <rect x="0" y="120" width="1400" height="30"/>
     <rect x="0" y="90" width="1400" height="16"/>
   </g>
-  <g fill="#0ea5a5" opacity="0.08">
+  <g fill="#4AE2B6" opacity="0.1">
     <rect x="90" y="70" width="1220" height="36" rx="8" />
   </g>
-  <g transform="translate(80,40)" fill="#cbd5e1" opacity="0.06">
+  <g transform="translate(80,40)" fill="#35A8E0" opacity="0.08">
     <text x="0" y="200" font-size="90" font-family="Outfit, Arial">STADIUM</text>
   </g>
 </svg>
