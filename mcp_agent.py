@@ -76,7 +76,9 @@ def generate_gemini_text(api_key: str, prompt) -> Tuple[str, str]:
                 except Exception as exc:
                     last_error = exc
                     error_text = str(exc).lower()
-                    if "404" not in error_text and "not found" not in error_text and "not supported" not in error_text:
+                    # Skip and fall back on model-not-found, resource/quota exhaustion (429), or rate limit errors
+                    skip_errors = ["404", "not found", "not supported", "429", "quota", "exhausted", "rate limit"]
+                    if not any(err in error_text for err in skip_errors):
                         raise
             
         except Exception as e:
@@ -94,7 +96,9 @@ def generate_gemini_text(api_key: str, prompt) -> Tuple[str, str]:
                 except Exception as exc:
                     last_error = exc
                     error_text = str(exc).lower()
-                    if "404" not in error_text and "not found" not in error_text and "not supported" not in error_text:
+                    # Skip and fall back on model-not-found, resource/quota exhaustion (429), or rate limit errors
+                    skip_errors = ["404", "not found", "not supported", "429", "quota", "exhausted", "rate limit"]
+                    if not any(err in error_text for err in skip_errors):
                         raise
         except Exception as e:
             last_error = e
