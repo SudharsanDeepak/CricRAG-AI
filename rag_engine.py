@@ -8,7 +8,8 @@ import chromadb
 from pypdf import PdfReader
 
 # Configuration
-DB_PATH = "chroma_db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "chroma_db")
 COLLECTION_NAME = "ipl_knowledge"
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 

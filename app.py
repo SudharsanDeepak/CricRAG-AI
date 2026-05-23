@@ -10,6 +10,8 @@ import uvicorn
 import threading
 import time
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Initialize RAG Engine on startup asynchronously in a background thread
 # to prevent blocking uvicorn startup or page loading.
 rag_engine = None
@@ -28,7 +30,7 @@ def init_rag_async():
         stats = rag_engine.get_db_stats()
         if stats["total_chunks"] == 0:
             print("Knowledge base is empty. Pre-loading 1000+ cricket facts in background...")
-            rag_engine.ingest_directory("knowledge_base")
+            rag_engine.ingest_directory(os.path.join(BASE_DIR, "knowledge_base"))
             stats = rag_engine.get_db_stats()
             print(f"Pre-loaded successfully! Total chunks: {stats['total_chunks']}")
         else:
@@ -42,7 +44,7 @@ def init_rag_async():
 threading.Thread(target=init_rag_async, daemon=True).start()
 
 # Settings persistence
-SETTINGS_FILE = "settings.json"
+SETTINGS_FILE = os.path.join(BASE_DIR, "settings.json")
 DEFAULT_SETTINGS = {
     "provider": "Google Gemini API" if os.environ.get("GEMINI_API_KEY") else "Offline Simulator (Pre-compiled & Heuristics)",
     "ollama_endpoint": os.environ.get("OLLAMA_ENDPOINT", "http://localhost:11434")
@@ -95,7 +97,7 @@ def chat_response(message, history, mode, settings_state):
             try:
                 from rag_engine import RAGEngine
                 rag_engine = RAGEngine()
-                rag_engine.ingest_directory("knowledge_base")
+                rag_engine.ingest_directory(os.path.join(BASE_DIR, "knowledge_base"))
             except Exception as err:
                 if history is None:
                     history = []
@@ -1216,7 +1218,7 @@ def build_app():
                     global rag_engine
                     if rag_engine:
                         rag_engine.clear_database()
-                        rag_engine.ingest_directory("knowledge_base")
+                        rag_engine.ingest_directory(os.path.join(BASE_DIR, "knowledge_base"))
                         return "Preloaded dataset loaded successfully!", get_stats_ui()
                     return "Engine not initialized.", ""
                     
@@ -1315,7 +1317,7 @@ from fastapi.responses import JSONResponse, Response
 
 @app.get("/")
 def read_root():
-    return FileResponse("index.html")
+    return FileResponse(os.path.join(BASE_DIR, "index.html"))
 
 @app.get("/manifest.json")
 def get_manifest():
