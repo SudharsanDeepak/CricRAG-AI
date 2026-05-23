@@ -9,14 +9,18 @@ from pypdf import PdfReader
 
 # Configuration
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "chroma_db")
+if os.environ.get("SPACE_ID"):
+    DB_PATH = "/tmp/chroma_db"
+else:
+    DB_PATH = os.path.join(BASE_DIR, "chroma_db")
 COLLECTION_NAME = "ipl_knowledge"
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 
 class RAGEngine:
     def __init__(self):
         print("Initializing Embedding Model...")
-        self.embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+        cache_dir = "/tmp/huggingface_cache" if os.path.exists("/tmp/huggingface_cache") else None
+        self.embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME, cache_folder=cache_dir)
         print("Embedding Model Loaded Successfully!")
         
         # Initialize Persistent ChromaDB

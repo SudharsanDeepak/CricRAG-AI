@@ -44,7 +44,10 @@ def init_rag_async():
 threading.Thread(target=init_rag_async, daemon=True).start()
 
 # Settings persistence
-SETTINGS_FILE = os.path.join(BASE_DIR, "settings.json")
+if os.environ.get("SPACE_ID"):
+    SETTINGS_FILE = "/tmp/settings.json"
+else:
+    SETTINGS_FILE = os.path.join(BASE_DIR, "settings.json")
 DEFAULT_SETTINGS = {
     "provider": "Google Gemini API" if os.environ.get("GEMINI_API_KEY") else "Offline Simulator (Pre-compiled & Heuristics)",
     "ollama_endpoint": os.environ.get("OLLAMA_ENDPOINT", "http://localhost:11434")
