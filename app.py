@@ -1102,7 +1102,7 @@ ACCESSIBILITY_JS = ""
 def build_app():
     saved_settings = load_settings()
     
-    with gr.Blocks(title="CricRAG AI Studio") as demo:
+    with gr.Blocks(title="CricRAG AI Studio", css=CUSTOM_CSS) as demo:
         # Settings state
         settings_state = gr.State(saved_settings)
 
@@ -1347,8 +1347,7 @@ def chrome_devtools_probe():
 app = gr.mount_gradio_app(
     app, 
     demo_app, 
-    path="/chat_interface",
-    css=CUSTOM_CSS
+    path="/chat_interface"
 )
 
 if __name__ == "__main__":
