@@ -1,16 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMid slice">
-  <defs>
-    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#35A8E0" stop-opacity="0.18"/>
-      <stop offset="1" stop-color="#FAF7EE"/>
-    </linearGradient>
-    <linearGradient id="flood" x1="0" x2="1">
-      <stop offset="0" stop-color="#35A8E0" stop-opacity="0.2"/>
-      <stop offset="1" stop-color="#4AE2B6" stop-opacity="0.15"/>
-    </linearGradient>
-  </defs>
-  <rect width="1400" height="300" fill="url(#sky)"/>
-  <g fill="url(#flood)">
+  <rect width="1400" height="300" fill="#FAF7EE"/>
+  <g fill="#35A8E0" opacity="0.1">
     <ellipse cx="700" cy="230" rx="600" ry="60" />
     <ellipse cx="700" cy="240" rx="500" ry="40" />
   </g>

@@ -290,11 +290,7 @@ CUSTOM_CSS = """
 }
 
 body {
-    background:
-        radial-gradient(circle at 12% 8%, rgba(53, 168, 224, 0.15), transparent 26%),
-        radial-gradient(circle at 80% 10%, rgba(74, 226, 182, 0.12), transparent 24%),
-        radial-gradient(circle at bottom right, rgba(244, 208, 104, 0.08), transparent 28%),
-        linear-gradient(180deg, #FAF7EE 0%, #FAF7EE 100%) !important;
+    background: #FAF7EE !important;
     color: var(--text) !important;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
@@ -327,12 +323,12 @@ body::before {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(53, 168, 224, 0.6), rgba(74, 226, 182, 0.6));
+    background: #35A8E0 !important;
     border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgba(53, 168, 224, 0.95), rgba(74, 226, 182, 0.95));
+    background: #2086C2 !important;
 }
 
 .app-shell {
@@ -342,9 +338,7 @@ body::before {
 }
 
 .hero-band {
-    background:
-        linear-gradient(135deg, rgba(244, 208, 104, 0.12), rgba(74, 226, 182, 0.08)),
-        #ffffff;
+    background: #ffffff;
     border: 1px solid var(--line);
     border-radius: 28px;
     padding: 24px 26px;
@@ -358,9 +352,7 @@ body::before {
     content: '';
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(circle at top right, rgba(244, 208, 104, 0.1), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(74, 226, 182, 0.06), transparent 24%);
+    background: transparent;
     pointer-events: none;
 }
 
@@ -394,9 +386,7 @@ body::before {
 }
 
 .hero-title span {
-    background: linear-gradient(135deg, #1B2E3C, #35A8E0 48%, #4AE2B6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #35A8E0;
 }
 
 .hero-copy {
@@ -507,7 +497,7 @@ body::before {
 .rail-card {
     border-radius: 22px;
     border: 1px solid var(--line);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+    background: #ffffff;
     padding: 18px;
 }
 
@@ -517,9 +507,7 @@ body::before {
     justify-content: space-between;
     gap: 18px;
     margin-bottom: 14px;
-    background:
-        linear-gradient(135deg, rgba(244, 208, 104, 0.1), rgba(74, 226, 182, 0.06)),
-        #ffffff;
+    background: #ffffff;
 }
 
 .stage-label,
@@ -640,7 +628,7 @@ body::before {
 
 .tab-nav button.selected {
     color: #ffffff !important;
-    background: linear-gradient(135deg, #35A8E0, #4AE2B6) !important;
+    background: #35A8E0 !important;
     box-shadow: 0 8px 18px rgba(53, 168, 224, 0.25) !important;
 }
 
@@ -718,15 +706,15 @@ body::before {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* USER Bubble: Elegant Sky Blue Gradient */
+/* USER Bubble: Solid Sky Blue */
 .user,
 .message .user,
 .message-wrap .user,
 [data-testid="user-message"] {
-    background: linear-gradient(135deg, #35A8E0 0%, #2086C2 100%) !important;
+    background: #35A8E0 !important;
     color: #FAF7EE !important;
     border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 8px 24px rgba(53, 168, 224, 0.2) !important;
+    box-shadow: 0 8px 24px rgba(53, 168, 224, 0.12) !important;
     font-weight: 500 !important;
     border-bottom-right-radius: 4px !important;
 }
@@ -736,7 +724,7 @@ body::before {
 }
 
 .user:hover {
-    box-shadow: 0 12px 30px rgba(53, 168, 224, 0.3) !important;
+    box-shadow: 0 12px 30px rgba(53, 168, 224, 0.22) !important;
     transform: translateY(-1px) !important;
 }
 
@@ -856,7 +844,7 @@ body::before {
 }
 
 #submit-btn {
-    background: linear-gradient(135deg, #35A8E0 0%, #4AE2B6 100%) !important;
+    background: #35A8E0 !important;
     color: #ffffff !important;
     min-width: 100px !important;
     height: 44px !important;
@@ -933,7 +921,7 @@ body::before {
 
 #mode-select label:has(input[type="radio"]:checked),
 #mode-select label.selected {
-    background: linear-gradient(135deg, #35A8E0, #4AE2B6) !important;
+    background: #35A8E0 !important;
     color: #ffffff !important;
 }
 
@@ -1074,7 +1062,7 @@ APP_STATS_HTML = """
 """
 
 APP_CHAT_BANNER_HTML = """
-<div class="chat-banner" style="padding:14px 18px;border-radius:12px;margin-bottom:12px;background:linear-gradient(90deg, rgba(53, 168, 224, 0.08), rgba(74, 226, 182, 0.05));border:1px solid var(--line);">
+<div class="chat-banner" style="padding:14px 18px;border-radius:12px;margin-bottom:12px;background:rgba(53, 168, 224, 0.08);border:1px solid var(--line);">
     <strong style="font-size:0.95rem;color:var(--text);">CricRAG Assistant</strong>
     <div style="font-size:0.86rem;color:var(--muted);">Ask about players, seasons, records, or rules — powered by local DB and LLM fallbacks.</div>
 </div>
