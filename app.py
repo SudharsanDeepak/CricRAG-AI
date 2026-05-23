@@ -269,7 +269,41 @@ def search_explorer_ui(query_text):
 
 # Custom Premium CSS for styling the UI
 CUSTOM_CSS = """
-:root {
+:root, .dark, .light {
+    /* Gradio System Variables Overrides */
+    --background-fill-primary: #FAF7EE !important;
+    --background-fill-secondary: #F5EFE2 !important;
+    --block-background-fill: #ffffff !important;
+    --block-border-color: rgba(53, 168, 224, 0.18) !important;
+    --border-color-primary: rgba(53, 168, 224, 0.18) !important;
+    --border-color-secondary: rgba(53, 168, 224, 0.12) !important;
+    --body-text-color: #1B2E3C !important;
+    --body-text-color-subdued: #5A7184 !important;
+    --block-title-text-color: #1B2E3C !important;
+    --block-label-text-color: #1B2E3C !important;
+    --input-background-fill: #ffffff !important;
+    --input-border-color: rgba(53, 168, 224, 0.18) !important;
+    --input-text-color: #1B2E3C !important;
+    --input-placeholder-color: #5A7184 !important;
+    --button-primary-background-fill: #35A8E0 !important;
+    --button-primary-text-color: #ffffff !important;
+    --button-primary-background-fill-hover: #2086C2 !important;
+    --button-secondary-background-fill: #ffffff !important;
+    --button-secondary-text-color: #1B2E3C !important;
+    --button-secondary-background-fill-hover: #F5EFE2 !important;
+    --neutral-50: #FAF7EE !important;
+    --neutral-100: #F5EFE2 !important;
+    --neutral-200: rgba(53, 168, 224, 0.18) !important;
+    --neutral-300: rgba(53, 168, 224, 0.32) !important;
+    --neutral-400: #5A7184 !important;
+    --neutral-500: #5A7184 !important;
+    --neutral-600: #1B2E3C !important;
+    --neutral-700: #1B2E3C !important;
+    --neutral-800: #1B2E3C !important;
+    --neutral-900: #1B2E3C !important;
+    --neutral-950: #1B2E3C !important;
+
+    /* Custom Theme Variables */
     --bg: #FAF7EE;
     --bg-2: #F5EFE2;
     --panel: rgba(255, 255, 255, 0.82);
@@ -291,13 +325,13 @@ CUSTOM_CSS = """
 
 body {
     background: #FAF7EE !important;
-    color: var(--text) !important;
+    color: #1B2E3C !important;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
 
 .gradio-container {
     background: transparent !important;
-    color: var(--text) !important;
+    color: #1B2E3C !important;
 }
 
 body::before {
@@ -338,14 +372,14 @@ body::before {
 }
 
 .hero-band {
-    background: #ffffff;
-    border: 1px solid var(--line);
-    border-radius: 28px;
-    padding: 24px 26px;
-    box-shadow: 0 20px 50px rgba(27, 46, 60, 0.06);
-    margin-bottom: 18px;
-    position: relative;
-    overflow: hidden;
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 28px !important;
+    padding: 24px 26px !important;
+    box-shadow: 0 20px 50px rgba(27, 46, 60, 0.06) !important;
+    margin-bottom: 18px !important;
+    position: relative !important;
+    overflow: hidden !important;
 }
 
 .hero-band::after {
@@ -357,112 +391,113 @@ body::before {
 }
 
 .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid rgba(53, 168, 224, 0.25);
-    background: rgba(53, 168, 224, 0.08);
-    color: #2086C2;
-    border-radius: 999px;
-    padding: 7px 12px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    position: relative;
-    z-index: 1;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    border: 1px solid rgba(53, 168, 224, 0.25) !important;
+    background: rgba(53, 168, 224, 0.08) !important;
+    color: #2086C2 !important;
+    border-radius: 999px !important;
+    padding: 7px 12px !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 .hero-title {
-    margin-top: 14px;
-    font-family: 'Outfit', 'Inter', sans-serif;
-    font-size: clamp(2rem, 4.4vw, 4.6rem);
-    line-height: 0.98;
-    letter-spacing: -0.05em;
-    font-weight: 900;
-    max-width: 11ch;
-    position: relative;
-    z-index: 1;
+    margin-top: 14px !important;
+    font-family: 'Outfit', 'Inter', sans-serif !important;
+    font-size: clamp(2rem, 4.4vw, 4.6rem) !important;
+    line-height: 0.98 !important;
+    letter-spacing: -0.05em !important;
+    font-weight: 900 !important;
+    max-width: 11ch !important;
+    position: relative !important;
+    z-index: 1 !important;
+    color: #1B2E3C !important;
 }
 
 .hero-title span {
-    color: #35A8E0;
+    color: #35A8E0 !important;
 }
 
 .hero-copy {
-    margin-top: 12px;
-    max-width: 72ch;
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.7;
-    position: relative;
-    z-index: 1;
+    margin-top: 12px !important;
+    max-width: 72ch !important;
+    color: #5A7184 !important;
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 .hero-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 18px;
-    position: relative;
-    z-index: 1;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    margin-top: 18px !important;
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 .meta-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 12px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid var(--line);
-    color: var(--muted);
-    font-size: 0.85rem;
-    font-weight: 600;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 9px 12px !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    border: 1px solid var(--line) !important;
+    color: #5A7184 !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
 }
 
 .meta-pill strong {
-    color: var(--text);
+    color: #1B2E3C !important;
 }
 
 .top-stats {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    margin-bottom: 18px;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    margin-bottom: 18px !important;
 }
 
 .stat-tile {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    padding: 18px 18px 16px;
-    box-shadow: 0 12px 30px rgba(27, 46, 60, 0.04);
-    backdrop-filter: blur(18px);
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 22px !important;
+    padding: 18px 18px 16px !important;
+    box-shadow: 0 12px 30px rgba(27, 46, 60, 0.04) !important;
+    backdrop-filter: blur(18px) !important;
 }
 
 .stat-kicker {
-    color: var(--muted);
-    font-size: 0.78rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    color: #5A7184 !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
 }
 
 .stat-number {
-    margin-top: 8px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.55rem;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    color: var(--text);
+    margin-top: 8px !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.55rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.04em !important;
+    color: #1B2E3C !important;
 }
 
 .stat-text {
-    margin-top: 6px;
-    color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.55;
+    margin-top: 6px !important;
+    color: #5A7184 !important;
+    font-size: 0.9rem !important;
+    line-height: 1.55 !important;
 }
 
 .assistant-grid {
@@ -531,7 +566,7 @@ body::before {
     margin-top: 10px;
     font-family: 'Outfit', sans-serif;
     letter-spacing: -0.04em;
-    color: var(--text);
+    color: var(--text) !important;
 }
 
 .stage-banner h2 {
@@ -542,7 +577,7 @@ body::before {
 .rail-card p,
 .rail-card li {
     margin-top: 10px;
-    color: var(--muted);
+    color: var(--muted) !important;
     line-height: 1.65;
     font-size: 0.94rem;
 }
@@ -562,7 +597,7 @@ body::before {
     border-radius: 18px;
     border: 1px solid var(--line);
     background: rgba(255, 255, 255, 0.9);
-    color: var(--text);
+    color: var(--text) !important;
     font-weight: 700;
     font-size: 0.84rem;
 }
@@ -650,7 +685,7 @@ body::before {
 }
 
 .chat-subtitle {
-    color: var(--muted);
+    color: var(--muted) !important;
     font-size: 0.88rem;
     margin-top: 4px;
 }
