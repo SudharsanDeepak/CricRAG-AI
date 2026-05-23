@@ -90,8 +90,7 @@ def chat_response(message, history, mode, settings_state):
         if is_engine_loading:
             if history is None:
                 history = []
-            history.append({"role": "user", "content": message})
-            history.append({"role": "assistant", "content": "🏏 CricRAG Engine is still initializing (loading vector models and indices). Please wait a few seconds and try again!"})
+            history.append([message, "🏏 CricRAG Engine is still initializing (loading vector models and indices). Please wait a few seconds and try again!"])
             return "", history, "Engine is still loading in the background. Please wait."
         else:
             try:
@@ -101,8 +100,7 @@ def chat_response(message, history, mode, settings_state):
             except Exception as err:
                 if history is None:
                     history = []
-                history.append({"role": "user", "content": message})
-                history.append({"role": "assistant", "content": f"System Error: RAG Engine failed to initialize ({err})"})
+                history.append([message, f"System Error: RAG Engine failed to initialize ({err})"])
                 return "", history, "Failed to initialize vector database. Make sure requirements are fully installed."
             
     provider = settings_state.get("provider", "Offline Simulator (Pre-compiled & Heuristics)")
@@ -165,8 +163,7 @@ def chat_response(message, history, mode, settings_state):
         thought_log = f"=== STANDARD RAG PIPELINE ===\n1. Received user question: '{message}'\n2. Running sentence-transformers query on ChromaDB...\n3. Found {len(results)} matching chunks.\n4. Formulating response via {provider}{f' ({gemini_model_name})' if gemini_model_name else ''}..."
         if history is None:
             history = []
-        history.append({"role": "user", "content": message})
-        history.append({"role": "assistant", "content": ans})
+        history.append([message, ans])
         
     else:
         # MCP Agent Mode (Tool calling)
@@ -193,8 +190,7 @@ def chat_response(message, history, mode, settings_state):
         # Append user message and agent's final answer to history
         if history is None:
             history = []
-        history.append({"role": "user", "content": message})
-        history.append({"role": "assistant", "content": ans})
+        history.append([message, ans])
         
     return "", history, thought_log
 
