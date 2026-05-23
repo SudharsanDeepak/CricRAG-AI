@@ -1,3 +1,13 @@
+---
+title: CricRAG AI
+emoji: 🏏
+colorFrom: green
+colorTo: yellow
+sdk: docker
+app_port: 7861
+pinned: false
+---
+
 # 🏏 CricRAG - Cricket Intelligence Workspace
 
 CricRAG is an offline-first cricket assistant that combines local semantic search (ChromaDB + sentence-transformers), structured player profiles, and MCP-style routing reasoning loops. It features a premium stadium-themed web dashboard and an embedded conversational assistant.
