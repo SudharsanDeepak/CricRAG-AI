@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CricRAG AI - Cricket Intelligence Workspace</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🏏</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050816;
+            --panel: rgba(11, 16, 32, 0.74);
+            --panel-strong: rgba(8, 12, 26, 0.92);
+            --line: rgba(148, 163, 184, 0.14);
+            --line-strong: rgba(148, 163, 184, 0.22);
+            --text: #eef2ff;
+            --muted: #94a3b8;
+            --accent: #5eead4;
+            --accent-2: #76d39b;
+            --accent-3: #f4d06f;
+            --shadow: 0 28px 80px rgba(0, 0, 0, 0.36);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.18), transparent 24%),
+                radial-gradient(circle at 100% 0%, rgba(94, 234, 212, 0.12), transparent 22%),
+                radial-gradient(circle at 100% 100%, rgba(245, 158, 11, 0.10), transparent 24%),
+                linear-gradient(180deg, #050816 0%, #060b18 100%);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(circle at center, black 32%, transparent 100%);
+            pointer-events: none;
+            opacity: 0.45;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.56);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(96, 165, 250, 0.72), rgba(94, 234, 212, 0.72));
+            border-radius: 999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, rgba(96, 165, 250, 1), rgba(94, 234, 212, 1));
+        }
+
+        .page {
+            width: min(1440px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 22px 0 36px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 18px;
+            margin-bottom: 18px;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: rgba(8, 12, 26, 0.68);
+            backdrop-filter: blur(18px);
+            box-shadow: var(--shadow);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.22), rgba(94, 234, 212, 0.18));
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .brand-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .brand-copy span:first-child {
+            font-size: 1.05rem;
+            color: #f8fafc;
+        }
+
+        .brand-copy span:last-child {
+            font-size: 0.82rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            color: #d1fae5;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.18);
+            font-size: 0.86rem;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: #22c55e;
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
+            gap: 18px;
+            align-items: stretch;
+            margin-bottom: 18px;
+        }
+
+        .hero-card,
+        .side-card,
+        .stat-card,
+        .info-card,
+        .app-shell {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 26px;
+            backdrop-filter: blur(18px);
+            box-shadow: var(--shadow);
+        }
+
+        .hero-card {
+            padding: 28px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.16), transparent 24%);
+            pointer-events: none;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(94, 234, 212, 0.08);
+            border: 1px solid rgba(94, 234, 212, 0.18);
+            color: #d1fae5;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            margin-top: 14px;
+            max-width: 12ch;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.4rem, 5vw, 5.2rem);
+            line-height: 0.98;
+            letter-spacing: -0.06em;
+            font-weight: 900;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #fff8eb 0%, #d6ad60 45%, #76d39b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-copy {
+            margin-top: 14px;
+            max-width: 66ch;
+            font-size: 1.02rem;
+            line-height: 1.7;
+            color: #cbd5e1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: rgba(8, 12, 26, 0.72);
+            color: #dbe4f0;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .side-card {
+            padding: 20px;
+            display: grid;
+            gap: 12px;
+            align-content: start;
+        }
+
+        .side-card h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: -0.03em;
+        }
+
+        .side-card p {
+            color: var(--muted);
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+
+        .side-metrics {
+            display: grid;
+            gap: 10px;
+        }
+
+        .mini-metric {
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: rgba(8, 12, 26, 0.62);
+            border: 1px solid var(--line);
+        }
+
+        .mini-metric strong {
+            display: block;
+            color: #f8fafc;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .mini-metric span {
+            color: var(--muted);
+            font-size: 0.84rem;
+            line-height: 1.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.06), transparent 45%);
+            pointer-events: none;
+        }
+
+        .stat-kicker {
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-number {
+            margin-top: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            color: #f8fafc;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-text {
+            margin-top: 6px;
+            color: #cbd5e1;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-shell {
+            padding: 12px;
+            margin-bottom: 18px;
+            overflow: hidden;
+        }
+
+        .app-shell iframe {
+            display: block;
+            width: 100%;
+            height: 820px;
+            border: 0;
+            border-radius: 20px;
+            background: transparent;
+            box-shadow: 0 28px 80px rgba(0,0,0,0.45);
+            border: 1px solid rgba(214, 181, 110, 0.06);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .info-card {
+            padding: 22px;
+        }
+
+        .info-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.12rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #f8fafc;
+        }
+
+        .info-card p,
+        .info-card li {
+            color: #cbd5e1;
+            line-height: 1.7;
+            font-size: 0.94rem;
+        }
+
+        .info-card ul {
+            list-style: none;
+            display: grid;
+            gap: 10px;
+        }
+
+        .info-card li {
+            padding-left: 22px;
+            position: relative;
+        }
+
+        .info-card li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .info-card strong {
+            color: #f8fafc;
+        }
+
+        footer {
+            text-align: center;
+            padding: 22px 0 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1100px) {
+            .hero,
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .page {
+                width: min(100% - 20px, 1440px);
+                padding-top: 12px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero-card,
+            .side-card,
+            .stat-card,
+            .info-card,
+            .app-shell {
+                border-radius: 22px;
+            }
+
+            .hero-card {
+                padding: 22px;
+            }
+
+            .app-shell iframe {
+                height: 980px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="topbar">
+            <div class="brand">
+                                <div class="brand-mark">
+                                        <!-- Inline crest SVG -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="42" height="42" style="display:block;border-radius:10px;">
+                                            <defs>
+                                                <linearGradient id="g1" x1="0" x2="1">
+                                                    <stop offset="0" stop-color="#76d39b"/>
+                                                    <stop offset="1" stop-color="#f4d06f"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <rect width="120" height="120" rx="18" fill="#061023"/>
+                                            <path d="M20 40 C36 18, 84 18, 100 40 L100 80 C84 102, 36 102, 20 80 Z" fill="url(#g1)" opacity="0.98"/>
+                                            <g transform="translate(40,36)">
+                                                <circle cx="20" cy="18" r="10" fill="#061023"/>
+                                                <rect x="6" y="38" width="28" height="6" rx="3" fill="#061023"/>
+                                            </g>
+                                        </svg>
+                                </div>
+                <div class="brand-copy">
+                    <span>CricRAG AI</span>
+                    <span>Cricket intelligence workspace</span>
+                </div>
+            </div>
+            <div class="status">
+                <span class="status-dot"></span>
+                Agent Engine Active
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-card">
+                    <!-- stadium backdrop -->
+                                <div style="position:absolute;inset:auto -40px -40px 50%;transform:translateX(-20%);opacity:0.12;pointer-events:none;z-index:0;">
+                                        <!-- Inline stadium SVG (decorative) -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMid slice" style="width:980px;height:auto;display:block;filter:blur(4px) saturate(1.05);">
+                                            <defs>
+                                                <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+                                                    <stop offset="0" stop-color="#07102a"/>
+                                                    <stop offset="1" stop-color="#071826"/>
+                                                </linearGradient>
+                                                <linearGradient id="flood" x1="0" x2="1">
+                                                    <stop offset="0" stop-color="#3b82f6" stop-opacity="0.12"/>
+                                                    <stop offset="1" stop-color="#34d399" stop-opacity="0.07"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <rect width="1400" height="300" fill="url(#sky)"/>
+                                            <g fill="url(#flood)">
+                                                <ellipse cx="700" cy="230" rx="600" ry="60" />
+                                                <ellipse cx="700" cy="240" rx="500" ry="40" />
+                                            </g>
+                                            <g fill="#0b1220" opacity="0.85">
+                                                <rect x="0" y="120" width="1400" height="30"/>
+                                                <rect x="0" y="90" width="1400" height="16"/>
+                                            </g>
+                                            <g fill="#0ea5a5" opacity="0.08">
+                                                <rect x="90" y="70" width="1220" height="36" rx="8" />
+                                            </g>
+                                            <g transform="translate(80,40)" fill="#cbd5e1" opacity="0.06">
+                                                <text x="0" y="200" font-size="90" font-family="Outfit, Arial">STADIUM</text>
+                                            </g>
+                                        </svg>
+                                </div>
+                <div class="eyebrow">Offline-first cricket assistant</div>
+                <h1>Search <span>IPL knowledge</span> with a premium, guided experience</h1>
+                <p class="hero-copy">
+                    CricRAG combines local semantic search, structured cricket facts, and MCP-style reasoning so you can ask about scores,
+                    player records, team histories, and season summaries in one place.
+                </p>
+                <div class="hero-chips">
+                    <div class="chip">Semantic vector search</div>
+                    <div class="chip">Gemini and Ollama fallback</div>
+                    <div class="chip">Player, season, and record intelligence</div>
+                    <div class="chip">Premium stadium UI</div>
+                </div>
+            </div>
+
+            <aside class="side-card">
+                <h2>Designed for quick decisions</h2>
+                <p>
+                    The interface prioritizes hierarchy, contrast, and fast scanning. Important controls stay visible, while the assistant
+                    remains the main focal point.
+                </p>
+                <div class="side-metrics">
+                    <div class="mini-metric">
+                        <strong>Three response modes</strong>
+                        <span>Offline simulator, Standard RAG, and MCP tool routing share the same visual language.</span>
+                    </div>
+                    <div class="mini-metric">
+                        <strong>Clean dashboard structure</strong>
+                        <span>Hero, metrics, assistant, and knowledge tabs are grouped for low-friction navigation.</span>
+                    </div>
+                    <div class="mini-metric">
+                        <strong>Fast local runtime</strong>
+                        <span>Built for local execution without forcing unnecessary browser noise or external dependencies.</span>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-kicker">Knowledge Base</div>
+                <div class="stat-number">1,000+</div>
+                <div class="stat-text">Curated IPL facts, season summaries, player profiles, and official records.</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-kicker">Core Modes</div>
+                <div class="stat-number">2</div>
+                <div class="stat-text">Standard RAG and MCP Agent Mode with a shared conversational surface.</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-kicker">Fallback Paths</div>
+                <div class="stat-number">3</div>
+                <div class="stat-text">Offline simulator, Gemini, and Ollama with graceful fallback behavior.</div>
+            </div>
+        </section>
+
+        <section class="app-shell">
+                        <div id="stadium-interactive" style="position:relative;overflow:hidden;border-radius:20px;">
+                                <!-- Inline decorative stadium SVG to avoid external asset requests -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMid slice" style="width:100%;height:360px;object-fit:cover;display:block;filter:contrast(0.85) saturate(1.05);">
+                                    <defs>
+                                        <linearGradient id="sky2" x1="0" x2="0" y1="0" y2="1">
+                                            <stop offset="0" stop-color="#07102a"/>
+                                            <stop offset="1" stop-color="#071826"/>
+                                        </linearGradient>
+                                        <linearGradient id="flood2" x1="0" x2="1">
+                                            <stop offset="0" stop-color="#3b82f6" stop-opacity="0.12"/>
+                                            <stop offset="1" stop-color="#34d399" stop-opacity="0.07"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <rect width="1400" height="300" fill="url(#sky2)"/>
+                                    <g fill="url(#flood2)">
+                                        <ellipse cx="700" cy="230" rx="600" ry="60" />
+                                        <ellipse cx="700" cy="240" rx="500" ry="40" />
+                                    </g>
+                                    <g fill="#0b1220" opacity="0.85">
+                                        <rect x="0" y="120" width="1400" height="30"/>
+                                        <rect x="0" y="90" width="1400" height="16"/>
+                                    </g>
+                                </svg>
+                <div style="position:absolute;left:24px;top:24px;right:24px;bottom:24px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;pointer-events:none;">
+                    <div style="max-width:680px;pointer-events:auto;background:linear-gradient(180deg, rgba(6,16,20,0.48), rgba(6,16,20,0.28));padding:20px;border-radius:14px;border:1px solid rgba(214,181,110,0.05);backdrop-filter:blur(6px);">
+                        <div style="font-family:Outfit, sans-serif;font-weight:800;font-size:1.6rem;color:#f8fafc;">Live Stadium Mode</div>
+                        <div style="margin-top:8px;color:#cbd5e1;line-height:1.5;">Explore the curated cricket intelligence workspace. Open the assistant to ask questions about players, seasons, records, and rules.</div>
+                        <div style="margin-top:12px;display:flex;gap:10px;">
+                            <a id="open-assistant-btn" href="/chat_interface/" target="_blank" style="pointer-events:auto;display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:linear-gradient(90deg,#76d39b,#f4d06f);color:#061023;font-weight:800;text-decoration:none;box-shadow:0 12px 30px rgba(6,18,36,0.45);">Open Assistant</a>
+                            <button id="preview-insights" style="pointer-events:auto;padding:10px 14px;border-radius:999px;background:transparent;border:1px solid rgba(148,163,184,0.06);color:#dbe4f0;font-weight:700;">Preview Insights</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-grid">
+            <div class="info-card">
+                <h3>Assistant capabilities</h3>
+                <ul>
+                    <li><strong>Semantic retrieval</strong>: Uses local ChromaDB and sentence embeddings for grounded answers.</li>
+                    <li><strong>Structured lookups</strong>: Pulls player stats, rules, and records from curated local knowledge.</li>
+                    <li><strong>Comparison flows</strong>: Handles player-versus-player and season-vs-season questions naturally.</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>Experience principles</h3>
+                <ul>
+                    <li><strong>Hierarchy first</strong>: Clear headline, supporting copy, and visible feature chips.</li>
+                    <li><strong>Low visual noise</strong>: Strong contrast, limited accent colors, and controlled glass effects.</li>
+                    <li><strong>Responsive by default</strong>: Layout collapses cleanly for smaller screens.</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>System integrations</h3>
+                <ul>
+                    <li><strong>FastAPI + Gradio</strong>: Local app shell with an embedded assistant interface.</li>
+                    <li><strong>Gemini and Ollama</strong>: Optional LLM paths with automatic model fallback.</li>
+                    <li><strong>Local-only operation</strong>: Designed to run without cloud services for core functionality.</li>
+                </ul>
+            </div>
+        </section>
+
+    <script>
+        // Small interactivity for the stadium panel
+        (function(){
+            const panel = document.getElementById('stadium-interactive');
+            if (!panel) return;
+            const btn = document.getElementById('preview-insights');
+            btn?.addEventListener('click', function(){
+                // Reveal a short modal-like insight preview
+                const preview = document.createElement('div');
+                preview.style.position = 'fixed';
+                preview.style.left = '50%';
+                preview.style.top = '50%';
+                preview.style.transform = 'translate(-50%,-50%)';
+                preview.style.background = 'linear-gradient(180deg, rgba(6,16,20,0.96), rgba(6,16,20,0.92))';
+                preview.style.border = '1px solid rgba(148,163,184,0.06)';
+                preview.style.padding = '18px';
+                preview.style.borderRadius = '12px';
+                preview.style.boxShadow = '0 40px 120px rgba(4,8,16,0.6)';
+                preview.style.zIndex = 9999;
+                preview.innerHTML = '<div style="font-weight:800;font-size:1.05rem;color:#f8fafc;margin-bottom:8px">Quick Insights</div><div style="color:#cbd5e1;line-height:1.5">Top players: Virat Kohli (8004 runs), Rohit Sharma (6628 runs), MS Dhoni (5243 runs). Most sixes: Chris Gayle (357). Ask the assistant for deeper analysis.</div>';
+                const close = document.createElement('button');
+                close.textContent = 'Close';
+                close.style.marginTop = '12px';
+                close.style.padding = '8px 12px';
+                close.style.borderRadius = '8px';
+                close.style.border = 'none';
+                close.style.background = '#76d39b';
+                close.style.fontWeight = 800;
+                close.addEventListener('click', function(){ document.body.removeChild(preview); });
+                preview.appendChild(close);
+                document.body.appendChild(preview);
+            });
+        })();
+    </script>
+
+        <footer>
+            Built with Gradio, FastAPI, ChromaDB, and LangChain.
+        </footer>
+    </div>
+</body>
+</html>
