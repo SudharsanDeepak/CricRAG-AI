@@ -278,6 +278,8 @@
             font-size: 2.2rem;
             font-weight: 800;
             color: var(--accent-green);
+            display: inline-block;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .stat-desc {
@@ -1137,6 +1139,20 @@
             30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
             40%, 60% { transform: translate3d(6px, 0, 0); }
         }
+
+        #sidebar-bat-indicator {
+            font-size: 1.2rem;
+            transform-origin: bottom left;
+        }
+        .swing-bat {
+            animation: bat-hit-swing 0.4s ease-out;
+        }
+        @keyframes bat-hit-swing {
+            0% { transform: rotate(0deg) scale(1); }
+            30% { transform: rotate(-45deg) scale(1.1); }
+            60% { transform: rotate(20deg) scale(1); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
     </style>
 </head>
 <body>
@@ -1157,7 +1173,8 @@
             <div class="brand-title">CricRAG AI</div>
         </div>
 
-        <nav class="nav-links">
+        <nav class="nav-links" style="position: relative;">
+            <div id="sidebar-bat-indicator" style="position: absolute; right: 16px; top: 12px; pointer-events: none; transition: top 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0; z-index: 15;">🏏</div>
             <div class="nav-item active" data-tab="dashboard">
                 <i data-lucide="layout-dashboard"></i>
                 Dashboard
@@ -1203,22 +1220,26 @@
 
             <!-- Rolling stats counters -->
             <div class="dashboard-grid">
-                <div class="glass-card stat-card">
+                <div class="glass-card stat-card" style="position:relative; overflow:hidden;">
+                    <div class="card-bg-cricket" style="position:absolute; right:-6px; bottom:-12px; font-size:4.5rem; opacity:0.04; transform: rotate(0deg); transition: transform 1.5s ease; pointer-events:none;">🏏</div>
                     <span class="stat-title">Ingested Facts</span>
                     <span class="stat-val" id="count-facts">0</span>
                     <span class="stat-desc">Curated cricket data points loaded</span>
                 </div>
-                <div class="glass-card stat-card">
+                <div class="glass-card stat-card" style="position:relative; overflow:hidden;">
+                    <div class="card-bg-cricket" style="position:absolute; right:-6px; bottom:-12px; font-size:4.5rem; opacity:0.04; transform: rotate(0deg); transition: transform 1.5s ease; pointer-events:none;">🛡️</div>
                     <span class="stat-title">Standard RAG Modes</span>
                     <span class="stat-val" id="count-modes">0</span>
                     <span class="stat-desc">Simulators & models fallback active</span>
                 </div>
-                <div class="glass-card stat-card">
+                <div class="glass-card stat-card" style="position:relative; overflow:hidden;">
+                    <div class="card-bg-cricket" style="position:absolute; right:-6px; bottom:-12px; font-size:4.5rem; opacity:0.04; transform: rotate(0deg); transition: transform 1.5s ease; pointer-events:none;">🥎</div>
                     <span class="stat-title">Query Hits</span>
                     <span class="stat-val" id="count-hits">0</span>
                     <span class="stat-desc">Direct semantic vectors queried</span>
                 </div>
-                <div class="glass-card stat-card">
+                <div class="glass-card stat-card" style="position:relative; overflow:hidden;">
+                    <div class="card-bg-cricket" style="position:absolute; right:-6px; bottom:-12px; font-size:4.5rem; opacity:0.04; transform: rotate(0deg); transition: transform 1.5s ease; pointer-events:none;">⚡</div>
                     <span class="stat-title">System Latency</span>
                     <span class="stat-val" id="count-latency">0</span>
                     <span class="stat-desc">Average indexing round-trip speed</span>
@@ -1469,8 +1490,9 @@
                     </div>
                 </div>
 
-                <div id="settings-status-banner" style="display:none; background:rgba(0, 255, 135, 0.12); border: 1px solid var(--accent-green); color:var(--accent-green); padding:14px; border-radius:12px; font-size:0.88rem; font-weight:600; text-align:center;">
-                    Settings saved successfully!
+                <div id="settings-status-banner" style="display:none; background:rgba(0, 255, 135, 0.12); border: 1px solid var(--accent-green); color:var(--accent-green); padding:14px; border-radius:12px; font-size:0.88rem; font-weight:600; text-align:center; align-items:center; justify-content:center; gap:12px;">
+                    <div id="umpire-signal-svg" style="width: 32px; height: 32px; flex-shrink:0;"></div>
+                    <span id="settings-status-text">Settings saved successfully!</span>
                 </div>
             </div>
         </div>
@@ -1749,6 +1771,76 @@
                 this.drawPitchMap();
                 this.drawWormChart();
                 this.drawManhattanChart();
+                this.setupHoverListeners();
+            }
+
+            setupHoverListeners() {
+                const wagon = this.wagonCanvas;
+                if (wagon) {
+                    wagon.onmousemove = (e) => {
+                        const rect = wagon.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const cx = wagon.width / 2;
+                        const cy = wagon.height / 2;
+                        const angle = Math.atan2(y - cy, x - cx);
+                        
+                        // If user hovers near crease, trigger a bat hit swing sound and mini delivery path draw
+                        const dist = Math.sqrt((x - cx)**2 + (y - cy)**2);
+                        if (dist < 40 && !this.wagonReplayTimeout) {
+                            this.wagonReplayTimeout = true;
+                            soundEngine.playHit();
+                            this.drawWagonWheel(); // Redraws and triggers delivery vectors animation
+                            setTimeout(() => { this.wagonReplayTimeout = false; }, 800);
+                        }
+                    };
+                }
+
+                const pitch = this.pitchCanvas;
+                if (pitch) {
+                    pitch.onmousemove = (e) => {
+                        const rect = pitch.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        // Check proximity to ball spots
+                        const pw = pitch.width * 0.4;
+                        const ph = pitch.height - 40;
+                        const px = (pitch.width - pw) / 2;
+                        const py = 20;
+                        
+                        const balls = [
+                            { x: px + pw * 0.3, y: py + ph * 0.35 },
+                            { x: px + pw * 0.6, y: py + ph * 0.55 },
+                            { x: px + pw * 0.45, y: py + ph * 0.72 },
+                            { x: px + pw * 0.5, y: py + ph * 0.50 }
+                        ];
+
+                        balls.forEach((b, idx) => {
+                            const d = Math.sqrt((x - b.x)**2 + (y - b.y)**2);
+                            if (d < 15 && this.lastHoveredSpot !== idx) {
+                                this.lastHoveredSpot = idx;
+                                soundEngine.playHit();
+                                
+                                // Draw ball delivery line to the bounce spot
+                                const ctx = pitch.getContext('2d');
+                                ctx.strokeStyle = 'var(--accent-blue)';
+                                ctx.lineWidth = 1.5;
+                                ctx.setLineDash([3, 3]);
+                                ctx.beginPath();
+                                ctx.moveTo(pitch.width / 2, py + ph * 0.95);
+                                ctx.quadraticCurveTo(b.x - 30, b.y + 40, b.x, b.y);
+                                ctx.stroke();
+                                ctx.setLineDash([]);
+                                
+                                setTimeout(() => {
+                                    this.drawPitchMap();
+                                    this.lastHoveredSpot = null;
+                                }, 600);
+                            }
+                        });
+                    };
+                }
             }
 
             drawWagonWheel() {
@@ -2117,6 +2209,21 @@
                     targetPanel.classList.add('active');
                 }
 
+                // Swing Bat transition indicator
+                const batInd = document.getElementById('sidebar-bat-indicator');
+                if (batInd) {
+                    const rect = item.getBoundingClientRect();
+                    const sidebarRect = document.querySelector('.nav-links').getBoundingClientRect();
+                    batInd.style.top = (rect.top - sidebarRect.top + 14) + 'px';
+                    batInd.style.opacity = '1';
+                    batInd.classList.remove('swing-bat');
+                    batInd.offsetHeight; // trigger reflow
+                    batInd.classList.add('swing-bat');
+                }
+
+                // Play hit sound effect
+                soundEngine.playHit();
+
                 // Initializer redraws when tabs switch
                 if (targetTab === 'visualizer') {
                     setTimeout(() => matchVisualizer.init(), 100);
@@ -2129,10 +2236,14 @@
             });
         });
 
-        // Numeric counters animator helper
+        // Numeric counters animator helper with hit-bounce micro animations
         function animateCounter(id, target, speed = 40) {
             const el = document.getElementById(id);
             if (!el) return;
+            
+            const parent = el.closest('.stat-card');
+            const bgIcon = parent ? parent.querySelector('.card-bg-cricket') : null;
+            
             let current = 0;
             const step = Math.ceil(target / speed);
             const timer = setInterval(() => {
@@ -2140,6 +2251,18 @@
                 if (current >= target) {
                     current = target;
                     clearInterval(timer);
+                    
+                    // Bounce counter text on hit completion
+                    el.style.transform = 'scale(1.18)';
+                    soundEngine.playHit();
+                    setTimeout(() => {
+                        el.style.transform = 'scale(1)';
+                    }, 200);
+
+                    // Rotate background cricket icon
+                    if (bgIcon) {
+                        bgIcon.style.transform = 'rotate(360deg)';
+                    }
                 }
                 el.textContent = current.toLocaleString();
             }, 30);
@@ -2224,6 +2347,41 @@
             }
         }
 
+        function drawUmpireSignal(type) {
+            const container = document.getElementById('umpire-signal-svg');
+            if (!container) return;
+            
+            let svgContent = '';
+            if (type === 'safe') {
+                svgContent = `
+                <svg viewBox="0 0 100 100" style="width:100%; height:100%;">
+                    <circle cx="50" cy="20" r="10" fill="none" stroke="var(--accent-green)" stroke-width="4"/>
+                    <line x1="50" y1="30" x2="50" y2="70" stroke="var(--accent-green)" stroke-width="4"/>
+                    <line x1="50" y1="40" x2="15" y2="40" stroke="var(--accent-green)" stroke-width="4" stroke-linecap="round">
+                        <animate attributeName="x2" from="50" to="15" dur="0.25s" fill="freeze"/>
+                    </line>
+                    <line x1="50" y1="40" x2="85" y2="40" stroke="var(--accent-green)" stroke-width="4" stroke-linecap="round">
+                        <animate attributeName="x2" from="50" to="85" dur="0.25s" fill="freeze"/>
+                    </line>
+                    <line x1="50" y1="70" x2="35" y2="95" stroke="var(--accent-green)" stroke-width="4"/>
+                    <line x1="50" y1="70" x2="65" y2="95" stroke="var(--accent-green)" stroke-width="4"/>
+                </svg>`;
+            } else {
+                svgContent = `
+                <svg viewBox="0 0 100 100" style="width:100%; height:100%;">
+                    <circle cx="50" cy="25" r="10" fill="none" stroke="var(--danger)" stroke-width="4"/>
+                    <line x1="50" y1="35" x2="50" y2="75" stroke="var(--danger)" stroke-width="4"/>
+                    <line x1="50" y1="45" x2="30" y2="65" stroke="var(--danger)" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="50" y1="45" x2="50" y2="10" stroke="var(--danger)" stroke-width="4" stroke-linecap="round">
+                        <animate attributeName="y2" from="45" to="10" dur="0.25s" fill="freeze"/>
+                    </line>
+                    <line x1="50" y1="75" x2="35" y2="95" stroke="var(--danger)" stroke-width="4"/>
+                    <line x1="50" y1="75" x2="65" y2="95" stroke="var(--danger)" stroke-width="4"/>
+                </svg>`;
+            }
+            container.innerHTML = svgContent;
+        }
+
         async function saveProviderSetting(provider) {
             try {
                 const response = await fetch('/api/settings', {
@@ -2232,21 +2390,38 @@
                     body: JSON.stringify({ provider: provider })
                 });
                 if (response.ok) {
-                    showSettingsBanner(`Provider switched to ${provider}`);
+                    showSettingsBanner(`Provider: ${provider}`, 'safe');
+                } else {
+                    showSettingsBanner('Configuration Error', 'out');
                 }
             } catch (err) {
                 console.error("Failed to save settings:", err);
+                showSettingsBanner('Network Exception', 'out');
             }
         }
 
-        function showSettingsBanner(msg) {
+        function showSettingsBanner(msg, type = 'safe') {
             const banner = document.getElementById('settings-status-banner');
-            if (banner) {
-                banner.textContent = msg;
-                banner.style.display = 'block';
+            const statusText = document.getElementById('settings-status-text');
+            if (banner && statusText) {
+                statusText.textContent = msg;
+                banner.style.display = 'flex';
+                
+                if (type === 'safe') {
+                    banner.style.borderColor = 'var(--accent-green)';
+                    banner.style.background = 'rgba(0, 255, 135, 0.12)';
+                    banner.style.color = 'var(--accent-green)';
+                } else {
+                    banner.style.borderColor = 'var(--danger)';
+                    banner.style.background = 'rgba(254, 95, 85, 0.12)';
+                    banner.style.color = 'var(--danger)';
+                }
+
+                drawUmpireSignal(type);
+                
                 setTimeout(() => {
                     banner.style.display = 'none';
-                }, 3000);
+                }, 3200);
             }
         }
 
@@ -2286,6 +2461,54 @@
             submitChatMessage();
         }
 
+        function animateChatBall() {
+            const sendBtn = document.querySelector('.chat-send-btn');
+            const chatBox = document.getElementById('chat-stream-box');
+            if (!sendBtn || !chatBox) return;
+
+            const btnRect = sendBtn.getBoundingClientRect();
+            
+            const ball = document.createElement('div');
+            ball.textContent = '🥎';
+            ball.style.position = 'fixed';
+            ball.style.left = btnRect.left + 'px';
+            ball.style.top = (btnRect.top - 10) + 'px';
+            ball.style.fontSize = '1.6rem';
+            ball.style.zIndex = '99999';
+            ball.style.pointerEvents = 'none';
+            ball.style.transition = 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            document.body.appendChild(ball);
+
+            setTimeout(() => {
+                const chatBoxRect = chatBox.getBoundingClientRect();
+                const targetX = chatBoxRect.left + chatBoxRect.width / 2;
+                const targetY = chatBoxRect.top + chatBoxRect.height / 2;
+                
+                ball.style.transform = 'translateY(-120px) rotate(360deg) scale(0.6)';
+                ball.style.left = targetX + 'px';
+                ball.style.top = targetY + 'px';
+                ball.style.opacity = '0.2';
+            }, 40);
+
+            setTimeout(() => {
+                soundEngine.playHit();
+                
+                confetti({
+                    particleCount: 15,
+                    spread: 40,
+                    origin: { 
+                        x: (chatBox.getBoundingClientRect().left + chatBox.clientWidth / 2) / window.innerWidth,
+                        y: (chatBox.getBoundingClientRect().top + chatBox.clientHeight / 2) / window.innerHeight
+                    },
+                    colors: ['#00FF87', '#38bdf8', '#F59E0B']
+                });
+                
+                if (ball.parentNode) {
+                    ball.parentNode.removeChild(ball);
+                }
+            }, 520);
+        }
+
         async function submitChatMessage() {
             const msgInput = document.getElementById('chat-input-msg');
             const message = msgInput.value.trim();
@@ -2294,6 +2517,9 @@
             msgInput.value = "";
             const chatBox = document.getElementById('chat-stream-box');
             
+            // Trigger flying ball launch animation
+            animateChatBall();
+
             // Append User message
             const userBubble = document.createElement('div');
             userBubble.className = "chat-bubble user";
