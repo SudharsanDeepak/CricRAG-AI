@@ -476,9 +476,7 @@
 
         /* AI Assistant Interface Styles */
         .ai-grid {
-            display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 24px;
+            display: block;
             height: calc(100vh - 150px);
         }
 
@@ -1435,16 +1433,7 @@
                     </div>
                 </div>
 
-                <!-- Thought logging trace panel -->
-                <div class="trace-rail">
-                    <div class="trace-title">
-                        <i data-lucide="terminal"></i>
-                        Thought log & execution stream
-                    </div>
-                    <div class="trace-box" id="thought-trace-logs">
-*Logs will stream here in real time during agent reasoning loops.*
-                    </div>
-                </div>
+
             </div>
         </div>
 
@@ -2557,8 +2546,11 @@
                     assistantBubble.className = "chat-bubble assistant";
                     chatBox.appendChild(assistantBubble);
                     
-                    // Update trace thought logs
-                    document.getElementById('thought-trace-logs').textContent = data.thought_log || "*Standard Retrieval complete.*";
+                    // Update trace thought logs (safe check)
+                    const traceLogs = document.getElementById('thought-trace-logs');
+                    if (traceLogs) {
+                        traceLogs.textContent = data.thought_log || "*Standard Retrieval complete.*";
+                    }
 
                     const responseText = data.history[data.history.length - 1].content;
                     chatHistory = data.history;

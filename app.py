@@ -1,4 +1,16 @@
 import os
+# Load .env file manually if it exists to retrieve API keys
+env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+if os.path.exists(env_path):
+    try:
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                if "=" in line and not line.strip().startswith("#"):
+                    k, v = line.split("=", 1)
+                    os.environ[k.strip()] = v.strip().strip("'\"")
+    except Exception as e:
+        print(f"Error parsing local .env configuration: {e}")
+
 import json
 import gradio as gr
 from rag_engine import RAGEngine
