@@ -3,667 +3,2367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CricRAG AI - Cricket Intelligence Workspace</title>
+    <title>CricRAG AI Studio - Premium Cricket Analytics</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🏏</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <!-- Lottie Player CDN -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
     <style>
         :root {
-            --bg: #FAF7EE;
-            --panel: rgba(255, 255, 255, 0.85);
-            --panel-strong: #ffffff;
-            --line: rgba(53, 168, 224, 0.18);
-            --line-strong: rgba(53, 168, 224, 0.32);
-            --text: #1B2E3C;
-            --muted: #5A7184;
-            --accent: #35A8E0;
-            --accent-2: #4AE2B6;
-            --accent-3: #F4D068;
-            --danger: #FE5F55;
-            --shadow: 0 20px 50px rgba(27, 46, 60, 0.06);
+            /* Default Dark Theme - Highly readable contrasting text on deep canvas */
+            --bg-primary: #070913;
+            --bg-secondary: #0F132A;
+            --bg-glass: rgba(15, 19, 42, 0.78);
+            --border-glass: rgba(255, 255, 255, 0.09);
+            --accent-green: #00FF87;
+            --accent-green-glow: rgba(0, 255, 135, 0.2);
+            --accent-gold: #F59E0B;
+            --accent-gold-glow: rgba(245, 158, 11, 0.2);
+            --accent-blue: #38bdf8;
+            --text-main: #FFFFFF; /* High-contrast white for primary texts */
+            --text-muted: #E2E8F0; /* High-contrast soft white/grey for secondary reading */
+            --danger: #FF5E5B;
+            --shadow-glow: 0 8px 32px 0 rgba(0, 255, 135, 0.08);
+            --shadow-gold: 0 8px 32px 0 rgba(245, 158, 11, 0.08);
+        }
+
+        body.light-theme {
+            /* Premium Light Theme - Charcoal on Off-White, optimized for reading readability */
+            --bg-primary: #F3F4F6;
+            --bg-secondary: #FFFFFF;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            --border-glass: rgba(15, 23, 42, 0.09);
+            --accent-green: #059669; /* Rich emerald green for contrast on light canvas */
+            --accent-green-glow: rgba(5, 150, 105, 0.15);
+            --accent-gold: #D97706; /* Solid amber gold */
+            --accent-gold-glow: rgba(217, 119, 6, 0.15);
+            --accent-blue: #0284c7;
+            --text-main: #0F172A; /* Absolute charcoal/slate for zero text squinting */
+            --text-muted: #475569; /* Readably dark muted gray */
+            --danger: #DC2626;
+            --shadow-glow: 0 8px 32px 0 rgba(5, 150, 105, 0.06);
+            --shadow-gold: 0 8px 32px 0 rgba(217, 119, 6, 0.06);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            user-select: none;
         }
 
         body {
-            min-height: 100vh;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text);
-            background: #FAF7EE;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: linear-gradient(rgba(53, 168, 224, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(53, 168, 224, 0.06) 1px, transparent 1px);
-            background-size: 48px 48px;
-            mask-image: radial-gradient(circle at center, black 32%, transparent 100%);
-            pointer-events: none;
-            opacity: 0.35;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #35A8E0;
-            border-radius: 999px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #2086C2;
-        }
-
-        .page {
-            width: min(1440px, calc(100% - 32px));
-            margin: 0 auto;
-            padding: 22px 0 36px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .topbar {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 18px;
-            margin-bottom: 18px;
-            border: 1px solid var(--line);
-            border-radius: 22px;
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: blur(18px);
-            box-shadow: var(--shadow);
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .brand {
+        /* All cards, inputs, and text buttons transitions */
+        .glass-card, .sidebar, .nav-item, .chat-bubble, .chat-textbox, .sim-btn, .suggestion-card, .trace-rail, .trace-box {
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Ambient floating background canvas */
+        #bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        /* Layout Structure */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-glass);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            z-index: 10;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .brand-header {
             display: flex;
             align-items: center;
             gap: 12px;
+            margin-bottom: 36px;
+        }
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 255, 135, 0.1);
+            border: 1.5px solid var(--accent-green);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-green);
+            box-shadow: 0 0 15px var(--accent-green-glow);
+        }
+
+        .brand-logo svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .brand-title {
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
+            font-size: 1.25rem;
             letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff, var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .brand-mark {
-            width: 42px;
-            height: 42px;
-            border-radius: 14px;
-            display: grid;
-            place-items: center;
-            background: rgba(53, 168, 224, 0.18);
-            border: 1px solid var(--line);
-            box-shadow: 0 10px 24px rgba(27, 46, 60, 0.05);
-        }
-
-        .brand-copy {
+        .nav-links {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-        }
-
-        .brand-copy span:first-child {
-            font-size: 1.05rem;
-            color: var(--text);
-        }
-
-        .brand-copy span:last-child {
-            font-size: 0.82rem;
-            color: var(--muted);
-            font-weight: 500;
-        }
-
-        .status {
-            display: inline-flex;
-            align-items: center;
             gap: 8px;
-            padding: 10px 14px;
-            border-radius: 999px;
-            color: #047857;
-            background: rgba(74, 226, 182, 0.12);
-            border: 1px solid rgba(74, 226, 182, 0.28);
-            font-size: 0.86rem;
-            font-weight: 700;
+            flex-grow: 1;
         }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: #4AE2B6;
-            box-shadow: 0 0 0 0 rgba(74, 226, 182, 0.5);
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-item.active {
+            color: var(--bg-primary);
+            background: var(--accent-green);
+            font-weight: 600;
+            box-shadow: 0 8px 24px var(--accent-green-glow);
+        }
+
+        .nav-item.active svg {
+            color: var(--bg-primary);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--accent-green);
+            box-shadow: 0 0 10px var(--accent-green);
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 226, 182, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(74, 226, 182, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 226, 182, 0); }
+        .footer-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
         }
 
-        .hero {
-            display: grid;
-            grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
-            gap: 18px;
-            align-items: stretch;
-            margin-bottom: 18px;
-        }
-
-        .hero-card,
-        .side-card,
-        .stat-card,
-        .info-card,
-        .app-shell {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 26px;
-            backdrop-filter: blur(18px);
-            box-shadow: var(--shadow);
-        }
-
-        .hero-card {
-            padding: 28px;
-            overflow: hidden;
+        .main-content {
+            flex-grow: 1;
+            height: 100vh;
+            overflow-y: auto;
             position: relative;
-        }
-
-        .hero-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at top right, rgba(53, 168, 224, 0.12), transparent 24%);
-            pointer-events: none;
-        }
-
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: rgba(74, 226, 182, 0.08);
-            border: 1px solid rgba(74, 226, 182, 0.18);
-            color: #047857;
-            font-size: 0.78rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            position: relative;
-            z-index: 1;
-        }
-
-        h1 {
-            margin-top: 14px;
-            max-width: 12ch;
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(2.4rem, 5vw, 5.2rem);
-            line-height: 0.98;
-            letter-spacing: -0.06em;
-            font-weight: 900;
-            position: relative;
-            z-index: 1;
-            color: var(--text) !important;
-        }
-
-        h1 span {
-            color: #35A8E0 !important;
-        }
-
-        .hero-copy {
-            margin-top: 14px;
-            max-width: 66ch;
-            font-size: 1.02rem;
-            line-height: 1.7;
-            color: var(--muted) !important;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-chips {
+            z-index: 5;
+            padding: 40px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-            position: relative;
-            z-index: 1;
+            flex-direction: column;
         }
 
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            border-radius: 999px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.85);
-            color: var(--text);
-            font-size: 0.85rem;
-            font-weight: 600;
+        /* Tab Panels */
+        .tab-panel {
+            display: none;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            height: 100%;
         }
 
-        .side-card {
-            padding: 20px;
-            display: grid;
-            gap: 12px;
-            align-content: start;
-        }
-
-        .side-card h2 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
-            letter-spacing: -0.03em;
-        }
-
-        .side-card p {
-            color: var(--muted);
-            line-height: 1.65;
-            font-size: 0.95rem;
-        }
-
-        .side-metrics {
-            display: grid;
-            gap: 10px;
-        }
-
-        .mini-metric {
-            padding: 12px 14px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid var(--line);
-        }
-
-        .mini-metric strong {
+        .tab-panel.active {
             display: block;
-            color: var(--text);
-            font-size: 1rem;
-            margin-bottom: 4px;
         }
 
-        .mini-metric span {
-            color: var(--muted);
-            font-size: 0.84rem;
-            line-height: 1.5;
+        /* General UI Classes: Glassmorphism Cards */
+        .glass-card {
+            background: var(--bg-glass);
+            border: 1.5px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        .stats-grid {
+        .glass-card:hover {
+            border-color: rgba(0, 255, 135, 0.2);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Dashboard Overview Styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
-            margin-bottom: 18px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 28px;
         }
 
         .stat-card {
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(53, 168, 224, 0.06), transparent 45%);
-            pointer-events: none;
-        }
-
-        .stat-kicker {
-            color: var(--muted);
-            font-size: 0.78rem;
-            font-weight: 800;
+        .stat-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            position: relative;
-            z-index: 1;
+            letter-spacing: 0.05em;
         }
 
-        .stat-number {
-            margin-top: 10px;
+        .stat-val {
             font-family: 'Outfit', sans-serif;
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            letter-spacing: -0.05em;
-            color: var(--text);
-            position: relative;
-            z-index: 1;
+            color: var(--accent-green);
         }
 
-        .stat-text {
-            margin-top: 6px;
-            color: var(--muted);
-            font-size: 0.92rem;
-            line-height: 1.6;
-            position: relative;
-            z-index: 1;
+        .stat-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
-        .app-shell {
-            padding: 12px;
-            margin-bottom: 18px;
+        .stats-visual-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        /* Match visualizer container styling */
+        .match-view-card {
+            height: 480px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        /* Wagon wheel and Pitch map canvas settings */
+        .canvas-container {
+            flex-grow: 1;
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .app-shell iframe {
+        .wheel-canvas, .pitch-canvas {
             display: block;
             width: 100%;
-            height: 820px;
-            border: 0;
-            border-radius: 20px;
-            background: transparent;
-            box-shadow: 0 28px 80px rgba(0,0,0,0.45);
-            border: 1px solid var(--line);
+            height: 100%;
         }
 
-        .info-grid {
+        /* Event Animation Simulator UI */
+        .simulator-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
-            margin-bottom: 18px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-top: 14px;
         }
 
-        .info-card {
-            padding: 22px;
+        .sim-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            padding: 12px;
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
-        .info-card h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.12rem;
+        .sim-btn:hover {
+            background: rgba(0, 255, 135, 0.08);
+            border-color: var(--accent-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 255, 135, 0.15);
+        }
+
+        .sim-btn.gold:hover {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: var(--accent-gold);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+        }
+
+        .sim-btn.danger:hover {
+            background: rgba(254, 95, 85, 0.08);
+            border-color: var(--danger);
+            box-shadow: 0 4px 15px rgba(254, 95, 85, 0.15);
+        }
+
+        /* Scoreboard design */
+        .scoreboard-card {
+            background: linear-gradient(135deg, rgba(13, 17, 39, 0.8), rgba(6, 9, 21, 0.9));
+            border: 1.5px solid var(--accent-green);
+            box-shadow: 0 0 25px rgba(0, 255, 135, 0.1);
+        }
+
+        .scoreboard-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .score-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .live-tag {
+            background: var(--accent-green);
+            color: var(--bg-primary);
             font-weight: 800;
-            margin-bottom: 12px;
-            color: var(--text);
+            padding: 4px 10px;
+            font-size: 0.72rem;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 6px;
+            width: fit-content;
         }
 
-        .info-card p,
-        .info-card li {
-            color: var(--muted);
-            line-height: 1.7;
-            font-size: 0.94rem;
+        .live-tag span {
+            width: 6px;
+            height: 6px;
+            background-color: var(--bg-primary);
+            border-radius: 50%;
+            animation: pulse-dark 1.5s infinite;
         }
 
-        .info-card ul {
-            list-style: none;
-            display: grid;
-            gap: 10px;
+        .score-main {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 3.2rem;
+            letter-spacing: -0.04em;
         }
 
-        .info-card li {
-            padding-left: 22px;
+        .score-sub {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .score-sub strong {
+            color: var(--text-main);
+        }
+
+        /* Win Probability Graph Widget */
+        .probability-bar-container {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .probability-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .prob-bar {
+            height: 14px;
+            border-radius: 999px;
+            background: #ffffff;
+            overflow: hidden;
+            display: flex;
             position: relative;
         }
 
-        .info-card li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: var(--accent);
-            font-size: 1.1rem;
+        .prob-bar-green {
+            height: 100%;
+            background: var(--accent-green);
+            transition: width 0.5s ease;
         }
 
-        .info-card strong {
-            color: var(--text);
+        .prob-bar-gold {
+            height: 100%;
+            background: var(--accent-gold);
+            transition: width 0.5s ease;
         }
 
-        footer {
+        /* AI Assistant Interface Styles */
+        .ai-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+            height: calc(100vh - 150px);
+        }
+
+        .chat-stage {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border-radius: 20px;
+            border: 1px solid var(--border-glass);
+            background: rgba(13, 17, 39, 0.4);
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+        }
+
+        .chat-scroll {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-bubble {
+            max-width: 75%;
+            padding: 16px 20px;
+            border-radius: 18px;
+            line-height: 1.6;
+            font-size: 0.96rem;
+            animation: bubbleAppear 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
+        }
+
+        .chat-bubble.user {
+            background: var(--accent-blue);
+            color: #ffffff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-bubble.assistant {
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border-left: 3px solid var(--accent-green);
+            border: 1.5px solid var(--border-glass);
+        }
+
+        .chat-input-row {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            gap: 12px;
+            background: rgba(13, 17, 39, 0.6);
+            align-items: center;
+        }
+
+        .chat-textbox {
+            flex-grow: 1;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1.5px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 12px 18px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .chat-textbox:focus {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 10px var(--accent-green-glow);
+        }
+
+        .chat-send-btn {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chat-send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-green-glow);
+        }
+
+        /* Suggestion cards */
+        .suggestions-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 14px 24px 0;
+        }
+
+        .suggestion-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-card:hover {
+            color: var(--accent-green);
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 135, 0.05);
+        }
+
+        /* Thought/Trace sliding log panel */
+        .trace-rail {
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            overflow-y: auto;
+            max-height: 100%;
+        }
+
+        .trace-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trace-box {
+            font-family: 'Courier New', monospace;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            white-space: pre-wrap;
+            line-height: 1.4;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        /* Custom Cricket Ball Loading Animation */
+        .ball-loader {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--danger);
+            border: 2px dashed #ffffff;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Keyframes */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            70% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+
+        @keyframes pulse-dark {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 135, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(0, 255, 135, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 135, 0); }
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(14px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes bubbleAppear {
+            0% { transform: translateY(10px) scale(0.95); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        /* Dedicated overlays for Six, Wicket, LBW etc */
+        #event-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(7, 9, 19, 0);
+            transition: background 0.3s ease;
+        }
+
+        #event-overlay.active {
+            background: rgba(7, 9, 19, 0.85);
+            pointer-events: auto;
+        }
+
+        .event-card {
+            font-family: 'Outfit', sans-serif;
             text-align: center;
-            padding: 22px 0 0;
-            color: var(--muted);
-            font-size: 0.9rem;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.6);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @media (max-width: 1100px) {
-            .hero,
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
+        .event-card.active {
+            display: flex;
+            opacity: 1;
+            transform: scale(1);
         }
 
-        @media (max-width: 720px) {
-            .page {
-                width: min(100% - 20px, 1440px);
-                padding-top: 12px;
-            }
+        /* 1. Six & Four */
+        .event-card.six {
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--accent-green);
+            text-shadow: 0 0 50px var(--accent-green-glow), 0 0 100px var(--accent-green);
+            animation: pulse-grow 1s infinite alternate;
+        }
+        .event-card.four {
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--accent-blue);
+            text-shadow: 0 0 50px rgba(53, 168, 224, 0.3), 0 0 100px var(--accent-blue);
+            animation: pulse-grow 1s infinite alternate;
+        }
 
-            .topbar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+        /* 2. Wicket Stump Flying CSS */
+        .wicket-stumps-container {
+            display: flex;
+            gap: 20px;
+            height: 160px;
+            align-items: flex-end;
+            position: relative;
+            margin-bottom: 24px;
+            width: 200px;
+            justify-content: center;
+        }
+        .stump {
+            width: 14px;
+            height: 120px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8);
+            border-radius: 6px;
+            transform-origin: bottom center;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .bail {
+            position: absolute;
+            height: 10px;
+            width: 60px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            top: 35px;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .bail.left-bail { left: 10px; }
+        .bail.right-bail { right: 10px; }
 
-            .hero-card,
-            .side-card,
-            .stat-card,
-            .info-card,
-            .app-shell {
-                border-radius: 22px;
-            }
+        /* Wicket active animation states */
+        .event-card.wicket.active .stump.left { transform: rotate(-35deg) translate(-20px, -10px); }
+        .event-card.wicket.active .stump.middle { transform: translate(0, -15px) rotate(5deg); }
+        .event-card.wicket.active .stump.right { transform: rotate(35deg) translate(20px, -10px); }
+        .event-card.wicket.active .bail.left-bail { transform: translate(-30px, -70px) rotate(-110deg); }
+        .event-card.wicket.active .bail.right-bail { transform: translate(30px, -70px) rotate(110deg); }
 
-            .hero-card {
-                padding: 22px;
-            }
+        .wicket-text {
+            font-size: 6rem;
+            font-weight: 900;
+            color: var(--danger);
+            text-shadow: 0 0 40px var(--danger);
+        }
 
-            .app-shell iframe {
-                height: 980px;
-            }
+        /* 3. Catch animation */
+        .catch-svg-container {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 16px;
+        }
+        .pulse-svg {
+            width: 100%;
+            height: 100%;
+            animation: zoom-in-pulse 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .wave-circle {
+            transform-origin: center;
+            animation: scale-circle 1.2s infinite ease-out;
+        }
+        .catch-text {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--danger);
+            text-shadow: 0 0 30px var(--danger);
+        }
+
+        /* 4. Run Out Laser Line CSS */
+        .crease-laser {
+            height: 6px;
+            width: 400px;
+            background: linear-gradient(90deg, transparent, var(--danger), transparent);
+            box-shadow: 0 0 20px var(--danger);
+            animation: laser-sweep 1s infinite alternate;
+            margin-bottom: 20px;
+        }
+        .runout-text {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--danger);
+            text-shadow: 0 0 30px var(--danger);
+        }
+
+        /* 5. LBW CSS Path Animation */
+        .lbw-trajectory {
+            width: 220px;
+            height: 220px;
+            margin-bottom: 16px;
+        }
+        .lbw-svg {
+            width: 100%;
+            height: 100%;
+        }
+        .ball-path {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: path-draw 0.8s forwards ease-in-out;
+        }
+        .pad-hit {
+            opacity: 0;
+            animation: flash-pad 0.3s 0.6s forwards;
+        }
+        .lbw-text {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--danger);
+            text-shadow: 0 0 30px var(--danger);
+        }
+
+        /* 6. Stumping glove action */
+        .glove-action {
+            font-size: 5rem;
+            margin-bottom: 16px;
+            animation: bounce-hit 0.6s ease-out;
+        }
+        .stumping-text {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--danger);
+            text-shadow: 0 0 30px var(--danger);
+        }
+
+        /* 7. No ball siren flash */
+        .noball-banner {
+            font-size: 6rem;
+            font-weight: 900;
+            color: #f97316;
+            text-shadow: 0 0 45px #f97316;
+            animation: scale-up-bounce 0.5s forwards;
+        }
+        .free-hit-sub {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            text-shadow: 0 0 20px var(--accent-green);
+            margin-top: 10px;
+        }
+
+        /* 8. Wide Ball boundary expansion */
+        .wide-lines {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 320px;
+            position: relative;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+        .w-line {
+            width: 4px;
+            height: 80px;
+            background: var(--accent-blue);
+            box-shadow: 0 0 15px var(--accent-blue);
+            animation: line-slide 0.6s ease-out forwards;
+        }
+        .w-line.left { transform-origin: left center; }
+        .w-line.right { transform-origin: right center; }
+        .ball-path-wide {
+            font-size: 2.2rem;
+            animation: ball-drift 0.8s ease-out forwards;
+        }
+        .wide-text {
+            font-size: 6rem;
+            font-weight: 900;
+            color: var(--accent-blue);
+            text-shadow: 0 0 30px var(--accent-blue);
+        }
+
+        /* 9. Toss 3D Coin Rotation */
+        .coin-container {
+            width: 120px;
+            height: 120px;
+            perspective: 1000px;
+            margin-bottom: 24px;
+        }
+        .coin {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: coin-spin 1.8s ease-out forwards;
+        }
+        .coin-side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            background: radial-gradient(circle, var(--accent-gold), #b45309);
+            border: 4px solid #fef08a;
+            box-shadow: 0 0 25px var(--accent-gold-glow);
+        }
+        .coin-side.tails {
+            transform: rotateY(180deg);
+        }
+        .toss-text {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            text-shadow: 0 0 20px var(--accent-gold-glow);
+        }
+
+        /* 10. Strategic Timeout */
+        .timeout-timer {
+            font-size: 6rem;
+            font-weight: 900;
+            color: var(--accent-green);
+            text-shadow: 0 0 30px var(--accent-green-glow);
+            font-family: monospace;
+            animation: pulse-grow 1s infinite alternate;
+        }
+        .timeout-title {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+
+        /* 11. Drinks Break */
+        .drinks-icon {
+            font-size: 6rem;
+            animation: wobble-drink 1.2s infinite;
+            margin-bottom: 16px;
+        }
+        .drinks-text {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            text-shadow: 0 0 25px rgba(53, 168, 224, 0.4);
+        }
+
+        /* 12. Innings Break */
+        .innings-header {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-shadow: 0 0 30px var(--accent-gold-glow);
+        }
+        .innings-sub {
+            font-size: 2.2rem;
+            color: #e2e8f0;
+            margin-top: 10px;
+        }
+
+        /* 13. Match Winner Champions */
+        .winner-trophy {
+            font-size: 8rem;
+            animation: trophy-bounce 1s infinite alternate;
+            filter: drop-shadow(0 0 30px var(--accent-gold));
+        }
+        .winner-text {
+            font-size: 6rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-shadow: 0 0 30px var(--accent-gold);
+            letter-spacing: -0.02em;
+        }
+
+        /* 14. Player of the Match Laurels */
+        .pom-laurels {
+            font-size: 7rem;
+            animation: laurel-rotate 2s ease-in-out forwards;
+            filter: drop-shadow(0 0 20px var(--accent-gold));
+        }
+        .pom-text {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            background: linear-gradient(135deg, #ffffff, var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 15px;
+        }
+
+        /* 15. Century Celebration */
+        .century-number {
+            font-size: 10rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-shadow: 0 0 50px var(--accent-gold), 0 0 100px #f59e0b;
+            font-family: 'Outfit', sans-serif;
+            animation: scale-up-bounce 0.6s forwards;
+        }
+        .century-text {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            margin-top: 10px;
+        }
+
+        /* 16. Half Century */
+        .fifty-number {
+            font-size: 9rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-shadow: 0 0 40px var(--accent-gold-glow);
+            font-family: 'Outfit', sans-serif;
+            animation: scale-up-bounce 0.6s forwards;
+        }
+        .fifty-text {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+
+        /* 17. Hat-trick Lightning */
+        .lightning-strike {
+            font-size: 7rem;
+            animation: lightning-flicker 0.4s 3 alternate;
+        }
+        .hattrick-text {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--accent-blue);
+            text-shadow: 0 0 40px var(--accent-blue);
+            margin-top: 15px;
+        }
+
+        /* Keyframes for Celebrations */
+        @keyframes pulse-grow {
+            0% { transform: scale(0.95); }
+            100% { transform: scale(1.05); }
+        }
+        @keyframes zoom-in-pulse {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes scale-circle {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+        @keyframes laser-sweep {
+            0% { transform: scaleX(0.2); opacity: 0.5; }
+            100% { transform: scaleX(1); opacity: 1; }
+        }
+        @keyframes path-draw {
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes flash-pad {
+            to { opacity: 1; }
+        }
+        @keyframes bounce-hit {
+            0% { transform: translateY(-40px); }
+            50% { transform: translateY(0) scaleY(0.8); }
+            100% { transform: translateY(0) scaleY(1); }
+        }
+        @keyframes scale-up-bounce {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        @keyframes ball-drift {
+            0% { transform: translate(-80px, 40px); }
+            100% { transform: translate(80px, -40px); }
+        }
+        @keyframes line-slide {
+            0% { transform: scaleY(0); }
+            100% { transform: scaleY(1); }
+        }
+        @keyframes coin-spin {
+            0% { transform: rotateX(0) rotateY(0); }
+            80% { transform: rotateX(1800deg) rotateY(720deg) translateY(-80px); }
+            100% { transform: rotateX(1800deg) rotateY(180deg) translateY(0); }
+        }
+        @keyframes wobble-drink {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+        @keyframes trophy-bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+        @keyframes laurel-rotate {
+            0% { transform: scale(0) rotate(-180deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        @keyframes lightning-flicker {
+            0%, 100% { opacity: 0.2; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .strobe-flash {
+            animation: strobe 0.15s 3;
+        }
+
+        @keyframes strobe {
+            0%, 100% { background-color: transparent; }
+            50% { background-color: rgba(254, 95, 85, 0.25); }
+        }
+
+        .shake-effect {
+            animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
         }
     </style>
 </head>
 <body>
-    <div class="page">
-        <header class="topbar">
-            <div class="brand">
-                                <div class="brand-mark">
-                                        <!-- Inline crest SVG -->
-                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="42" height="42" style="display:block;border-radius:10px;">
-                                             <rect width="120" height="120" rx="18" fill="#1B2E3C"/>
-                                             <path d="M20 40 C36 18, 84 18, 100 40 L100 80 C84 102, 36 102, 20 80 Z" fill="#4AE2B6" opacity="0.98"/>
-                                             <g transform="translate(40,36)">
-                                                 <circle cx="20" cy="18" r="10" fill="#1B2E3C"/>
-                                                 <rect x="6" y="38" width="28" height="6" rx="3" fill="#1B2E3C"/>
-                                             </g>
-                                         </svg>
-                                </div>
-                <div class="brand-copy">
-                    <span>CricRAG AI</span>
-                    <span>Cricket intelligence workspace</span>
+
+    <!-- Parallax Floating Balls Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand-header">
+            <div class="brand-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+            </div>
+            <div class="brand-title">CricRAG AI</div>
+        </div>
+
+        <nav class="nav-links">
+            <div class="nav-item active" data-tab="dashboard">
+                <i data-lucide="layout-dashboard"></i>
+                Dashboard
+            </div>
+            <div class="nav-item" data-tab="live">
+                <i data-lucide="radio"></i>
+                Live Hub
+            </div>
+            <div class="nav-item" data-tab="visualizer">
+                <i data-lucide="pie-chart"></i>
+                Match Visualizer
+            </div>
+            <div class="nav-item" data-tab="assistant">
+                <i data-lucide="message-square"></i>
+                AI Workspace
+            </div>
+            <div class="nav-item" data-tab="settings">
+                <i data-lucide="sliders"></i>
+                System Settings
+            </div>
+        </nav>
+
+        <div class="sidebar-footer" style="justify-content: space-between; display: flex; width: 100%;">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div class="footer-status"></div>
+                <span class="footer-text">Engine Active</span>
+            </div>
+            <button onclick="toggleTheme()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:4px;" title="Toggle Theme">
+                <i data-lucide="sun" id="sidebar-theme-icon" style="width:16px; height:16px;"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Container -->
+    <main class="main-content">
+
+        <!-- 1. DASHBOARD OVERVIEW TAB -->
+        <div id="dashboard" class="tab-panel active">
+            <header class="dashboard-header">
+                <h1 class="page-title">Broadcast Analytics</h1>
+                <div class="live-tag"><span></span>Live Hub Connected</div>
+            </header>
+
+            <!-- Rolling stats counters -->
+            <div class="dashboard-grid">
+                <div class="glass-card stat-card">
+                    <span class="stat-title">Ingested Facts</span>
+                    <span class="stat-val" id="count-facts">0</span>
+                    <span class="stat-desc">Curated cricket data points loaded</span>
+                </div>
+                <div class="glass-card stat-card">
+                    <span class="stat-title">Standard RAG Modes</span>
+                    <span class="stat-val" id="count-modes">0</span>
+                    <span class="stat-desc">Simulators & models fallback active</span>
+                </div>
+                <div class="glass-card stat-card">
+                    <span class="stat-title">Query Hits</span>
+                    <span class="stat-val" id="count-hits">0</span>
+                    <span class="stat-desc">Direct semantic vectors queried</span>
+                </div>
+                <div class="glass-card stat-card">
+                    <span class="stat-title">System Latency</span>
+                    <span class="stat-val" id="count-latency">0</span>
+                    <span class="stat-desc">Average indexing round-trip speed</span>
                 </div>
             </div>
-            <div class="status">
-                <span class="status-dot"></span>
-                Agent Engine Active
-            </div>
-        </header>
 
-        <section class="hero">
-            <div class="hero-card">
-                    <!-- stadium backdrop -->
-                                <div style="position:absolute;inset:auto -40px -40px 50%;transform:translateX(-20%);opacity:0.12;pointer-events:none;z-index:0;">
-                                        <!-- Inline stadium SVG (decorative) -->
-                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMid slice" style="width:980px;height:auto;display:block;filter:blur(4px) saturate(1.05);">
-                                             <rect width="1400" height="300" fill="#FAF7EE"/>
-                                             <g fill="#35A8E0" opacity="0.1">
-                                                 <ellipse cx="700" cy="230" rx="600" ry="60" />
-                                                 <ellipse cx="700" cy="240" rx="500" ry="40" />
-                                             </g>
-                                             <g fill="#1B2E3C" opacity="0.08">
-                                                 <rect x="0" y="120" width="1400" height="30"/>
-                                                 <rect x="0" y="90" width="1400" height="16"/>
-                                             </g>
-                                             <g fill="#4AE2B6" opacity="0.1">
-                                                 <rect x="90" y="70" width="1220" height="36" rx="8" />
-                                             </g>
-                                             <g transform="translate(80,40)" fill="#35A8E0" opacity="0.08">
-                                                 <text x="0" y="200" font-size="90" font-family="Outfit, Arial">STADIUM</text>
-                                             </g>
-                                         </svg>
-                                </div>
-                <div class="eyebrow">Offline-first cricket assistant</div>
-                <h1>Search <span>IPL knowledge</span> with a premium, guided experience</h1>
-                <p class="hero-copy">
-                    CricRAG combines local semantic search, structured cricket facts, and MCP-style reasoning so you can ask about scores,
-                    player records, team histories, and season summaries in one place.
-                </p>
-                <div class="hero-chips">
-                    <div class="chip">Semantic vector search</div>
-                    <div class="chip">Gemini and Ollama fallback</div>
-                    <div class="chip">Player, season, and record intelligence</div>
-                    <div class="chip">Premium stadium UI</div>
-                </div>
-            </div>
-
-            <aside class="side-card">
-                <h2>Designed for quick decisions</h2>
-                <p>
-                    The interface prioritizes hierarchy, contrast, and fast scanning. Important controls stay visible, while the assistant
-                    remains the main focal point.
-                </p>
-                <div class="side-metrics">
-                    <div class="mini-metric">
-                        <strong>Three response modes</strong>
-                        <span>Offline simulator, Standard RAG, and MCP tool routing share the same visual language.</span>
+            <!-- Team comparisons and graphs -->
+            <div class="stats-visual-grid">
+                <div class="glass-card match-view-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Win Probability Simulation</h2>
+                        <i data-lucide="trending-up" style="color: var(--accent-green)"></i>
                     </div>
-                    <div class="mini-metric">
-                        <strong>Clean dashboard structure</strong>
-                        <span>Hero, metrics, assistant, and knowledge tabs are grouped for low-friction navigation.</span>
-                    </div>
-                    <div class="mini-metric">
-                        <strong>Fast local runtime</strong>
-                        <span>Built for local execution without forcing unnecessary browser noise or external dependencies.</span>
-                    </div>
-                </div>
-            </aside>
-        </section>
-
-        <section class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-kicker">Knowledge Base</div>
-                <div class="stat-number">1,000+</div>
-                <div class="stat-text">Curated IPL facts, season summaries, player profiles, and official records.</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-kicker">Core Modes</div>
-                <div class="stat-number">2</div>
-                <div class="stat-text">Standard RAG and MCP Agent Mode with a shared conversational surface.</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-kicker">Fallback Paths</div>
-                <div class="stat-number">3</div>
-                <div class="stat-text">Offline simulator, Gemini, and Ollama with graceful fallback behavior.</div>
-            </div>
-        </section>
-
-        <section class="app-shell">
-                        <div id="stadium-interactive" style="position:relative;overflow:hidden;border-radius:20px;">
-                                <!-- Inline decorative stadium SVG to avoid external asset requests -->
-                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMid slice" style="width:100%;height:360px;object-fit:cover;display:block;filter:contrast(0.85) saturate(1.05);">
-                                     <rect width="1400" height="300" fill="#FAF7EE"/>
-                                     <g fill="#35A8E0" opacity="0.1">
-                                         <ellipse cx="700" cy="230" rx="600" ry="60" />
-                                         <ellipse cx="700" cy="240" rx="500" ry="40" />
-                                     </g>
-                                     <g fill="#1B2E3C" opacity="0.08">
-                                         <rect x="0" y="120" width="1400" height="30"/>
-                                         <rect x="0" y="90" width="1400" height="16"/>
-                                     </g>
-                                 </svg>
-                <div style="position:absolute;left:24px;top:24px;right:24px;bottom:24px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;pointer-events:none;">
-                    <div style="max-width:680px;pointer-events:auto;background:rgba(255, 255, 255, 0.92);padding:20px;border-radius:14px;border:1px solid var(--line);backdrop-filter:blur(8px);box-shadow: 0 10px 30px rgba(27, 46, 60, 0.05);">
-                        <div style="font-family:Outfit, sans-serif;font-weight:800;font-size:1.6rem;color:var(--text);">Live Stadium Mode</div>
-                        <div style="margin-top:8px;color:var(--muted);line-height:1.5;">Explore the curated cricket intelligence workspace. Open the assistant to ask questions about players, seasons, records, and rules.</div>
-                        <div style="margin-top:12px;display:flex;gap:10px;">
-                            <a id="open-assistant-btn" href="/chat_interface/" target="_blank" style="pointer-events:auto;display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:#35A8E0;color:#ffffff;font-weight:800;text-decoration:none;box-shadow:0 8px 24px rgba(53, 168, 224, 0.2);">Open Assistant</a>
-                            <button id="preview-insights" style="pointer-events:auto;padding:10px 14px;border-radius:999px;background:rgba(255, 255, 255, 0.8);border:1px solid var(--line);color:var(--text);font-weight:700;">Preview Insights</button>
+                    <div style="flex-grow:1;display:flex;flex-direction:column;justify-content:center;">
+                        <div class="probability-bar-container">
+                            <div class="probability-header">
+                                <span>Royal Challengers Bengaluru (RCB)</span>
+                                <span>78%</span>
+                            </div>
+                            <div class="prob-bar">
+                                <div class="prob-bar-green" id="prob-rcb" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        <div class="probability-bar-container" style="margin-top:20px;">
+                            <div class="probability-header">
+                                <span>Chennai Super Kings (CSK)</span>
+                                <span>22%</span>
+                            </div>
+                            <div class="prob-bar">
+                                <div class="prob-bar-gold" id="prob-csk" style="width: 22%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section class="info-grid">
-            <div class="info-card">
-                <h3>Assistant capabilities</h3>
-                <ul>
-                    <li><strong>Semantic retrieval</strong>: Uses local ChromaDB and sentence embeddings for grounded answers.</li>
-                    <li><strong>Structured lookups</strong>: Pulls player stats, rules, and records from curated local knowledge.</li>
-                    <li><strong>Comparison flows</strong>: Handles player-versus-player and season-vs-season questions naturally.</li>
-                </ul>
+                <div class="glass-card match-view-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Curated IPL Insights</h2>
+                        <i data-lucide="award" style="color: var(--accent-gold)"></i>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:12px;margin-top:10px;overflow-y:auto;">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <i data-lucide="award" style="color: var(--accent-gold); width:18px;"></i>
+                            <span style="font-size:0.88rem;color:var(--text-muted);">Virat Kohli: 8,004 runs (RCB)</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <i data-lucide="award" style="color: var(--accent-gold); width:18px;"></i>
+                            <span style="font-size:0.88rem;color:var(--text-muted);">MS Dhoni: 5,243 runs (CSK)</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <i data-lucide="award" style="color: var(--accent-gold); width:18px;"></i>
+                            <span style="font-size:0.88rem;color:var(--text-muted);">Chris Gayle: 357 sixes (Universe Boss)</span>
+                        </div>
+                        <a href="/chat_interface/" target="_blank" style="margin-top:14px;background:var(--accent-green);color:var(--bg-primary);text-decoration:none;font-weight:700;font-size:0.86rem;padding:12px;border-radius:10px;text-align:center;">Launch Classic Admin panel</a>
+                    </div>
+                </div>
             </div>
-            <div class="info-card">
-                <h3>Experience principles</h3>
-                <ul>
-                    <li><strong>Hierarchy first</strong>: Clear headline, supporting copy, and visible feature chips.</li>
-                    <li><strong>Low visual noise</strong>: Strong contrast, limited accent colors, and controlled glass effects.</li>
-                    <li><strong>Responsive by default</strong>: Layout collapses cleanly for smaller screens.</li>
-                </ul>
-            </div>
-            <div class="info-card">
-                <h3>System integrations</h3>
-                <ul>
-                    <li><strong>FastAPI + Gradio</strong>: Local app shell with an embedded assistant interface.</li>
-                    <li><strong>Gemini and Ollama</strong>: Optional LLM paths with automatic model fallback.</li>
-                    <li><strong>Local-only operation</strong>: Designed to run without cloud services for core functionality.</li>
-                </ul>
-            </div>
-        </section>
+        </div>
 
+        <!-- 2. LIVE MATCH EXPERIENCE TAB -->
+        <div id="live" class="tab-panel">
+            <header class="dashboard-header">
+                <h1 class="page-title">Live Match Experience</h1>
+                <div class="live-tag"><span></span>Live Stream</div>
+            </header>
+
+            <div class="glass-card scoreboard-card stat-card" style="margin-bottom: 24px; padding: 28px;">
+                <div class="scoreboard-flex">
+                    <div class="score-box">
+                        <div class="live-tag"><span></span>In Play</div>
+                        <div class="score-main" id="live-score-val">184/4</div>
+                        <div class="score-sub">Overs: <strong id="live-overs-val">17.2</strong> | CRR: <strong id="live-crr-val">10.61</strong></div>
+                    </div>
+                    <div style="text-align: right; display:flex; flex-direction:column; gap:4px;">
+                        <span style="font-family:'Outfit'; font-weight:800; font-size:1.4rem;">RCB vs CSK</span>
+                        <span style="color:var(--accent-gold); font-size:0.9rem; font-weight:600;">RCB lead by 36 runs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive event triggers -->
+            <div class="glass-card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <h2 class="card-title">Interactive Event Trigger Simulator</h2>
+                    <span style="font-size:0.82rem; color:var(--text-muted);">Trigger Lottie / Canvas Celebrations dynamically</span>
+                </div>
+                <div class="simulator-grid">
+                    <button class="sim-btn" onclick="celebrationEngine.trigger('six')">🏏 Six</button>
+                    <button class="sim-btn" onclick="celebrationEngine.trigger('four')">🏏 Four</button>
+                    <button class="sim-btn danger" onclick="celebrationEngine.trigger('wicket')">🔴 Wicket</button>
+                    <button class="sim-btn danger" onclick="celebrationEngine.trigger('catch')">🔴 Catch</button>
+                    <button class="sim-btn danger" onclick="celebrationEngine.trigger('runout')">🔴 Run Out</button>
+                    <button class="sim-btn danger" onclick="celebrationEngine.trigger('lbw')">LBW</button>
+                    <button class="sim-btn danger" onclick="celebrationEngine.trigger('stumping')">Stumping</button>
+                    <button class="sim-btn" onclick="celebrationEngine.trigger('noball')">No Ball</button>
+                    <button class="sim-btn" onclick="celebrationEngine.trigger('wide')">Wide Ball</button>
+                    <button class="sim-btn" onclick="celebrationEngine.trigger('toss')">Toss</button>
+                    <button class="sim-btn" onclick="celebrationEngine.trigger('timeout')">Timeout</button>
+                    <button class="sim-btn" onclick="celebrationEngine.trigger('drinks')">Drinks Break</button>
+                    <button class="sim-btn" onclick="celebrationEngine.trigger('innings')">Innings Break</button>
+                    <button class="sim-btn gold" onclick="celebrationEngine.trigger('winner')">🏆 Winner</button>
+                    <button class="sim-btn gold" onclick="celebrationEngine.trigger('pom')">Player of Match</button>
+                    <button class="sim-btn gold" onclick="celebrationEngine.trigger('century')">💯 Century</button>
+                    <button class="sim-btn gold" onclick="celebrationEngine.trigger('fifty')">Fifty</button>
+                    <button class="sim-btn gold" onclick="celebrationEngine.trigger('hattrick')">⚡ Hat-trick</button>
+                </div>
+            </div>
+
+            <!-- Manhattan & worm charts -->
+            <div class="stats-visual-grid">
+                <div class="glass-card match-view-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Run Progression Worm Chart</h2>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="worm-chart" class="wheel-canvas"></canvas>
+                    </div>
+                </div>
+                <div class="glass-card match-view-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Over-by-Over Manhattan Chart</h2>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="manhattan-chart" class="wheel-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. MATCH VISUALIZER TAB -->
+        <div id="visualizer" class="tab-panel">
+            <header class="dashboard-header">
+                <h1 class="page-title">Spatial visualizations</h1>
+                <div class="live-tag"><span></span>Interactive Fields</div>
+            </header>
+
+            <div class="stats-visual-grid">
+                <div class="glass-card match-view-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Interactive Wagon Wheel</h2>
+                        <i data-lucide="compass" style="color: var(--accent-green)"></i>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="wagon-canvas" class="wheel-canvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card match-view-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Pitch Map Heatmap</h2>
+                        <i data-lucide="target" style="color: var(--accent-gold)"></i>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="pitch-canvas" class="pitch-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <h2 class="card-title">Active Filters</h2>
+                </div>
+                <div style="display:flex; gap:12px; margin-top:10px;">
+                    <div class="suggestion-card" style="border-color: var(--accent-green); color: var(--accent-green)">All Deliveries</div>
+                    <div class="suggestion-card">Fast Bowlers</div>
+                    <div class="suggestion-card">Spinners</div>
+                    <div class="suggestion-card">Against Righthanders</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. AI WORKSPACE TAB -->
+        <div id="assistant" class="tab-panel">
+            <div class="ai-grid">
+                <div class="chat-stage">
+                    <div class="chat-scroll" id="chat-stream-box">
+                        <div class="chat-bubble assistant">
+                            Welcome to the premium CricRAG assistant workspace. Ask me any details about player records, rules, or histories.
+                        </div>
+                    </div>
+                    
+                    <div class="suggestions-row" id="suggestions-container">
+                        <div class="suggestion-card" onclick="submitSuggestion('Who is MS Dhoni?')">Who is MS Dhoni?</div>
+                        <div class="suggestion-card" onclick="submitSuggestion('Who has the most runs in IPL?')">Who has the most runs in IPL?</div>
+                        <div class="suggestion-card" onclick="submitSuggestion('Explain powerplay rules')">Explain powerplay rules</div>
+                    </div>
+
+                    <div class="chat-input-row">
+                        <input type="text" class="chat-textbox" id="chat-input-msg" placeholder="Ask about player stats, rules, summaries..." onkeydown="handleChatSubmitKey(event)">
+                        <button class="chat-send-btn" onclick="submitChatMessage()">
+                            <i data-lucide="send"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Thought logging trace panel -->
+                <div class="trace-rail">
+                    <div class="trace-title">
+                        <i data-lucide="terminal"></i>
+                        Thought log & execution stream
+                    </div>
+                    <div class="trace-box" id="thought-trace-logs">
+*Logs will stream here in real time during agent reasoning loops.*
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. SETTINGS PANEL -->
+        <div id="settings" class="tab-panel">
+            <header class="dashboard-header">
+                <h1 class="page-title">System Settings</h1>
+            </header>
+            <div style="display:flex; flex-direction:column; gap:24px; max-width:680px;">
+                <div class="glass-card">
+                    <h2 class="card-title" style="margin-bottom:18px;">Provider Configuration</h2>
+                    <div style="display:flex; flex-direction:column; gap:20px;">
+                        <div>
+                            <span class="stat-title" style="margin-bottom:12px; display:block;">LLM Provider Selection</span>
+                            <div style="display:flex; flex-direction:column; gap:10px;">
+                                <label style="background:var(--bg-secondary); border: 1.5px solid var(--border-glass); padding:16px; border-radius:12px; cursor:pointer; display:flex; align-items:center; gap:12px;" class="provider-choice-label">
+                                    <input type="radio" name="provider-choice" value="Google Gemini API" id="provider-gemini" onchange="saveProviderSetting('Google Gemini API')">
+                                    <div style="display:flex; flex-direction:column;">
+                                        <span style="font-weight:600; font-size:0.95rem; color:var(--text-main);">Google Gemini API</span>
+                                        <span style="font-size:0.8rem; color:var(--text-muted);">Use the cloud-based RAG assistant backed by Google Gemini.</span>
+                                    </div>
+                                </label>
+                                <label style="background:var(--bg-secondary); border: 1.5px solid var(--border-glass); padding:16px; border-radius:12px; cursor:pointer; display:flex; align-items:center; gap:12px;" class="provider-choice-label">
+                                    <input type="radio" name="provider-choice" value="Offline Simulator (Pre-compiled & Heuristics)" id="provider-offline" onchange="saveProviderSetting('Offline Simulator (Pre-compiled & Heuristics)')">
+                                    <div style="display:flex; flex-direction:column;">
+                                        <span style="font-weight:600; font-size:0.95rem; color:var(--text-main);">Offline Heuristic Simulator</span>
+                                        <span style="font-size:0.8rem; color:var(--text-muted);">Run the offline RAG loops locally using pre-compiled analytics.</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h2 class="card-title" style="margin-bottom:18px;">Theme Configuration</h2>
+                    <div>
+                        <span class="stat-title" style="margin-bottom:12px; display:block;">Select System Visual Theme</span>
+                        <div style="display:flex; gap:12px;">
+                            <button class="sim-btn" id="theme-dark-btn" onclick="setTheme('dark')" style="flex:1; padding: 14px;">🌙 Broadcast Dark Theme</button>
+                            <button class="sim-btn" id="theme-light-btn" onclick="setTheme('light')" style="flex:1; padding: 14px;">☀️ High Contrast Light Theme</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings-status-banner" style="display:none; background:rgba(0, 255, 135, 0.12); border: 1px solid var(--accent-green); color:var(--accent-green); padding:14px; border-radius:12px; font-size:0.88rem; font-weight:600; text-align:center;">
+                    Settings saved successfully!
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Overlay container for Event Celebrations -->
+    <div id="event-overlay">
+        <!-- 1. Six -->
+        <div class="event-card six" id="ev-six">SIX!</div>
+        
+        <!-- 2. Four -->
+        <div class="event-card four" id="ev-four">FOUR!</div>
+        
+        <!-- 3. Wicket -->
+        <div class="event-card wicket" id="ev-wicket">
+            <div class="wicket-stumps-container">
+                <div class="stump left"></div>
+                <div class="stump middle"></div>
+                <div class="stump right"></div>
+                <div class="bail left-bail"></div>
+                <div class="bail right-bail"></div>
+            </div>
+            <div class="wicket-text">WICKET!</div>
+        </div>
+        
+        <!-- 4. Catch -->
+        <div class="event-card catch" id="ev-catch">
+            <div class="catch-svg-container">
+                <svg viewBox="0 0 100 100" class="pulse-svg">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="var(--danger)" stroke-width="4" class="wave-circle"/>
+                    <path d="M30 60 C35 40, 65 40, 70 60" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+                    <circle cx="50" cy="35" r="10" fill="var(--danger)"/>
+                </svg>
+            </div>
+            <div class="catch-text">CAUGHT!</div>
+        </div>
+
+        <!-- 5. Run Out -->
+        <div class="event-card runout" id="ev-runout">
+            <div class="crease-laser"></div>
+            <div class="runout-text">RUN OUT!</div>
+        </div>
+
+        <!-- 6. LBW -->
+        <div class="event-card lbw" id="ev-lbw">
+            <div class="lbw-trajectory">
+                <svg viewBox="0 0 100 100" class="lbw-svg">
+                    <line x1="10" y1="90" x2="50" y2="60" stroke="var(--accent-blue)" stroke-width="4" stroke-linecap="round" class="ball-path"/>
+                    <rect x="45" y="40" width="10" height="40" fill="rgba(254, 95, 85, 0.4)" stroke="red" stroke-width="2" class="pad-hit"/>
+                    <line x1="45" y1="80" x2="45" y2="20" stroke="white" stroke-width="3"/>
+                    <line x1="50" y1="80" x2="50" y2="20" stroke="white" stroke-width="3"/>
+                    <line x1="55" y1="80" x2="55" y2="20" stroke="white" stroke-width="3"/>
+                </svg>
+            </div>
+            <div class="lbw-text">L.B.W.!</div>
+        </div>
+
+        <!-- 7. Stumping -->
+        <div class="event-card stumping" id="ev-stumping">
+            <div class="glove-action">🧤🏏⚡</div>
+            <div class="stumping-text">STUMPED!</div>
+        </div>
+
+        <!-- 8. No Ball -->
+        <div class="event-card noball" id="ev-noball">
+            <div class="noball-banner">⚠️ NO BALL</div>
+            <div class="free-hit-sub">FREE HIT! 🏏🔥</div>
+        </div>
+
+        <!-- 9. Wide Ball -->
+        <div class="event-card wide" id="ev-wide">
+            <div class="wide-lines">
+                <div class="w-line left"></div>
+                <div class="ball-path-wide">🥎</div>
+                <div class="w-line right"></div>
+            </div>
+            <div class="wide-text">WIDE!</div>
+        </div>
+
+        <!-- 10. Toss -->
+        <div class="event-card toss" id="ev-toss">
+            <div class="coin-container">
+                <div class="coin">
+                    <div class="coin-side heads">🏏</div>
+                    <div class="coin-side tails">🪙</div>
+                </div>
+            </div>
+            <div class="toss-text" id="toss-result-text">CSK WON TOSS</div>
+        </div>
+
+        <!-- 11. Strategic Timeout -->
+        <div class="event-card timeout" id="ev-timeout">
+            <div class="timeout-timer">⏱️ 02:30</div>
+            <div class="timeout-title">STRATEGIC TIMEOUT</div>
+        </div>
+
+        <!-- 12. Drinks Break -->
+        <div class="event-card drinks" id="ev-drinks">
+            <div class="drinks-icon">🥤🍹🧊</div>
+            <div class="drinks-text">DRINKS BREAK</div>
+        </div>
+
+        <!-- 13. Innings Break -->
+        <div class="event-card innings" id="ev-innings">
+            <div class="innings-header">INNINGS BREAK</div>
+            <div class="innings-sub">Teams Switching Sides</div>
+        </div>
+
+        <!-- 14. Match Winner -->
+        <div class="event-card winner" id="ev-winner">
+            <div class="winner-trophy">🏆</div>
+            <div class="winner-text">CHAMPIONS!</div>
+        </div>
+
+        <!-- 15. Player of the Match -->
+        <div class="event-card pom" id="ev-pom">
+            <div class="pom-laurels">🏅</div>
+            <div class="pom-text">PLAYER OF THE MATCH</div>
+        </div>
+
+        <!-- 16. Century Celebration -->
+        <div class="event-card century" id="ev-century">
+            <div class="century-number">100</div>
+            <div class="century-text">CENTURY! 💯🏏</div>
+        </div>
+
+        <!-- 17. Half Century Celebration -->
+        <div class="event-card fifty" id="ev-fifty">
+            <div class="fifty-number">50</div>
+            <div class="fifty-text">HALF CENTURY! 👏🥎</div>
+        </div>
+
+        <!-- 18. Hat-trick Celebration -->
+        <div class="event-card hattrick" id="ev-hattrick">
+            <div class="lightning-strike">⚡⚡⚡</div>
+            <div class="hattrick-text">HAT-TRICK! 🔥🏏</div>
+        </div>
+
+        <div class="event-card generic" id="ev-generic">Event Triggered</div>
+    </div>
+
+    <!-- Sound synthesizer for Bat-Hits and crowd cheers -->
     <script>
-        // Small interactivity for the stadium panel
-        (function(){
-            const panel = document.getElementById('stadium-interactive');
-            if (!panel) return;
-            const btn = document.getElementById('preview-insights');
-            btn?.addEventListener('click', function(){
-                // Reveal a short modal-like insight preview
-                const preview = document.createElement('div');
-                preview.style.position = 'fixed';
-                preview.style.left = '50%';
-                preview.style.top = '50%';
-                preview.style.transform = 'translate(-50%,-50%)';
-                preview.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95))';
-                preview.style.border = '1px solid var(--line)';
-                preview.style.padding = '18px';
-                preview.style.borderRadius = '12px';
-                preview.style.boxShadow = '0 30px 80px rgba(27,46,60,0.15)';
-                preview.style.zIndex = 9999;
-                preview.innerHTML = '<div style="font-weight:800;font-size:1.05rem;color:var(--text);margin-bottom:8px">Quick Insights</div><div style="color:var(--muted);line-height:1.5">Top players: Virat Kohli (8004 runs), Rohit Sharma (6628 runs), MS Dhoni (5243 runs). Most sixes: Chris Gayle (357). Ask the assistant for deeper analysis.</div>';
-                const close = document.createElement('button');
-                close.textContent = 'Close';
-                close.style.marginTop = '12px';
-                close.style.padding = '8px 12px';
-                close.style.borderRadius = '8px';
-                close.style.border = 'none';
-                close.style.background = '#35A8E0';
-                close.style.color = '#ffffff';
-                close.style.fontWeight = 800;
-                close.addEventListener('click', function(){ document.body.removeChild(preview); });
-                preview.appendChild(close);
-                document.body.appendChild(preview);
-            });
-        })();
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+            }
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+            playHit() {
+                this.init();
+                if (!this.ctx) return;
+                let osc = this.ctx.createOscillator();
+                let gain = this.ctx.createGain();
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                
+                osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(30, this.ctx.currentTime + 0.12);
+                
+                gain.gain.setValueAtTime(0.5, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.12);
+                
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.12);
+            }
+            playCheer() {
+                this.init();
+                if (!this.ctx) return;
+                // Generate simple noise for crowd cheer
+                let bufferSize = this.ctx.sampleRate * 1.5;
+                let buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                let data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                let noise = this.ctx.createBufferSource();
+                noise.buffer = buffer;
+                let filter = this.ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.value = 400;
+                
+                let gain = this.ctx.createGain();
+                gain.gain.setValueAtTime(0, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.3, this.ctx.currentTime + 0.2);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 1.4);
+                
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(this.ctx.destination);
+                noise.start();
+            }
+        }
+        const soundEngine = new SoundEngine();
     </script>
 
-        <footer>
-            Built with Gradio, FastAPI, ChromaDB, and LangChain.
-        </footer>
-    </div>
+    <!-- Parallax Background particles script -->
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let balls = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class BackgroundBall {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.r = Math.random() * 24 + 12;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.alpha = Math.random() * 0.12 + 0.05;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < -this.r) this.x = canvas.width + this.r;
+                if (this.x > canvas.width + this.r) this.x = -this.r;
+                if (this.y < -this.r) this.y = canvas.height + this.r;
+                if (this.y > canvas.height + this.r) this.y = -this.r;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 255, 135, ${this.alpha})`;
+                ctx.fill();
+                // Add a simple white thread seam line
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, -0.2, Math.PI - 0.2);
+                ctx.strokeStyle = `rgba(255, 255, 255, ${this.alpha * 0.5})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+
+        for (let i = 0; i < 20; i++) {
+            balls.push(new BackgroundBall());
+        }
+
+        function animateBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            balls.forEach(b => {
+                b.update();
+                b.draw();
+            });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+    </script>
+
+    <!-- Visualizers: Wagon Wheel, Pitch Map, Worm and Manhattan graphs -->
+    <script>
+        function getColor(varName) {
+            return getComputedStyle(document.body).getPropertyValue(varName).trim();
+        }
+
+        class MatchVisualizer {
+            constructor() {
+                this.wagonCanvas = document.getElementById('wagon-canvas');
+                this.pitchCanvas = document.getElementById('pitch-canvas');
+                this.wormCanvas = document.getElementById('worm-chart');
+                this.manhattanCanvas = document.getElementById('manhattan-chart');
+            }
+
+            init() {
+                this.drawWagonWheel();
+                this.drawPitchMap();
+                this.drawWormChart();
+                this.drawManhattanChart();
+            }
+
+            drawWagonWheel() {
+                const c = this.wagonCanvas;
+                if (!c) return;
+                const ctx = c.getContext('2d');
+                c.width = c.parentElement.clientWidth;
+                c.height = 360;
+
+                const cx = c.width / 2;
+                const cy = c.height / 2;
+                const r = Math.min(cx, cy) - 20;
+
+                ctx.clearRect(0, 0, c.width, c.height);
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                ctx.fillStyle = document.body.classList.contains('light-theme') ? 'rgba(5, 150, 105, 0.05)' : 'rgba(0, 255, 135, 0.03)';
+                ctx.fill();
+                ctx.strokeStyle = getColor('--accent-green');
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, r * 0.5, 0, Math.PI * 2);
+                ctx.strokeStyle = document.body.classList.contains('light-theme') ? 'rgba(0, 0, 0, 0.15)' : 'rgba(255, 255, 255, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([5, 5]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = document.body.classList.contains('light-theme') ? '#475569' : '#ffffff';
+                ctx.fillRect(cx - 20, cy - 3, 40, 6);
+
+                const shots = [
+                    { angle: -0.2, color: getColor('--accent-green'), dist: r - 15 },
+                    { angle: 0.8, color: getColor('--accent-green'), dist: r - 20 },
+                    { angle: 1.6, color: getColor('--accent-blue'), dist: r - 45 },
+                    { angle: 2.8, color: getColor('--accent-gold'), dist: r - 10 },
+                    { angle: -1.2, color: getColor('--accent-green'), dist: r - 12 },
+                    { angle: -2.3, color: getColor('--accent-blue'), dist: r - 60 }
+                ];
+
+                shots.forEach(s => {
+                    let progress = 0;
+                    function animateLine() {
+                        if (progress >= 1) return;
+                        progress += 0.08;
+                        ctx.beginPath();
+                        ctx.moveTo(cx, cy);
+                        ctx.lineTo(cx + Math.cos(s.angle) * s.dist * progress, cy + Math.sin(s.angle) * s.dist * progress);
+                        ctx.strokeStyle = s.color;
+                        ctx.lineWidth = 2.5;
+                        ctx.stroke();
+                        requestAnimationFrame(animateLine);
+                    }
+                    animateLine();
+                });
+            }
+
+            drawPitchMap() {
+                const c = this.pitchCanvas;
+                if (!c) return;
+                const ctx = c.getContext('2d');
+                c.width = c.parentElement.clientWidth;
+                c.height = 360;
+
+                ctx.clearRect(0, 0, c.width, c.height);
+                const pw = c.width * 0.4;
+                const ph = c.height - 40;
+                const px = (c.width - pw) / 2;
+                const py = 20;
+
+                ctx.fillStyle = document.body.classList.contains('light-theme') ? 'rgba(217, 119, 6, 0.08)' : 'rgba(245, 158, 11, 0.03)';
+                ctx.fillRect(px, py, pw, ph);
+                ctx.strokeStyle = getColor('--accent-gold');
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(px, py, pw, ph);
+
+                ctx.strokeStyle = document.body.classList.contains('light-theme') ? '#475569' : '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(px, py + ph * 0.12);
+                ctx.lineTo(px + pw, py + ph * 0.12);
+                ctx.moveTo(px, py + ph * 0.88);
+                ctx.lineTo(px + pw, py + ph * 0.88);
+                ctx.stroke();
+
+                const balls = [
+                    { x: px + pw * 0.3, y: py + ph * 0.35, color: getColor('--danger') },
+                    { x: px + pw * 0.6, y: py + ph * 0.55, color: getColor('--accent-gold') },
+                    { x: px + pw * 0.45, y: py + ph * 0.72, color: getColor('--accent-green') },
+                    { x: px + pw * 0.5, y: py + ph * 0.50, color: getColor('--accent-green') }
+                ];
+
+                balls.forEach(b => {
+                    ctx.beginPath();
+                    ctx.arc(b.x, b.y, 7, 0, Math.PI * 2);
+                    ctx.fillStyle = b.color;
+                    ctx.fill();
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                });
+            }
+
+            drawWormChart() {
+                const c = this.wormCanvas;
+                if (!c) return;
+                const ctx = c.getContext('2d');
+                c.width = c.parentElement.clientWidth;
+                c.height = 360;
+
+                ctx.clearRect(0, 0, c.width, c.height);
+                
+                ctx.strokeStyle = document.body.classList.contains('light-theme') ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)';
+                ctx.lineWidth = 1;
+                const padding = 45;
+                const graphHeight = c.height - padding * 2;
+                const graphWidth = c.width - padding * 2;
+
+                for (let i = 0; i <= 4; i++) {
+                    const y = padding + (graphHeight / 4) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(padding, y);
+                    ctx.lineTo(c.width - padding, y);
+                    ctx.stroke();
+                    
+                    ctx.fillStyle = getColor('--text-muted');
+                    ctx.font = '10px Inter';
+                    ctx.fillText(String(200 - 50 * i), padding - 30, y + 4);
+                }
+
+                const rcb = [0, 8, 22, 38, 51, 62, 79, 95, 114, 130, 148, 162, 184];
+                const csk = [0, 12, 18, 30, 44, 58, 68, 80, 98, 110, 122, 135, 148];
+                const step = graphWidth / (rcb.length - 1);
+
+                ctx.beginPath();
+                ctx.strokeStyle = getColor('--accent-green');
+                ctx.lineWidth = 3.5;
+                rcb.forEach((val, idx) => {
+                    const tx = padding + idx * step;
+                    const ty = padding + graphHeight - (val / 200) * graphHeight;
+                    if (idx === 0) ctx.moveTo(tx, ty);
+                    else ctx.lineTo(tx, ty);
+                });
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.strokeStyle = getColor('--accent-gold');
+                ctx.lineWidth = 3.5;
+                csk.forEach((val, idx) => {
+                    const tx = padding + idx * step;
+                    const ty = padding + graphHeight - (val / 200) * graphHeight;
+                    if (idx === 0) ctx.moveTo(tx, ty);
+                    else ctx.lineTo(tx, ty);
+                });
+                ctx.stroke();
+            }
+
+            drawManhattanChart() {
+                const c = this.manhattanCanvas;
+                if (!c) return;
+                const ctx = c.getContext('2d');
+                c.width = c.parentElement.clientWidth;
+                c.height = 360;
+
+                ctx.clearRect(0, 0, c.width, c.height);
+
+                const padding = 45;
+                const graphHeight = c.height - padding * 2;
+                const graphWidth = c.width - padding * 2;
+
+                ctx.strokeStyle = document.body.classList.contains('light-theme') ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 4; i++) {
+                    const y = padding + (graphHeight / 4) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(padding, y);
+                    ctx.lineTo(c.width - padding, y);
+                    ctx.stroke();
+                    ctx.fillStyle = getColor('--text-muted');
+                    ctx.font = '10px Inter';
+                    ctx.fillText(String(24 - 6 * i), padding - 22, y + 4);
+                }
+
+                const rcbOvers = [8, 14, 6, 12, 18, 5, 9, 15, 24, 11, 8, 19, 14];
+                const cskOvers = [11, 7, 12, 14, 10, 8, 12, 18, 8, 12, 13, 10, 13];
+                const step = graphWidth / rcbOvers.length;
+                const barWidth = (step - 6) / 2;
+
+                rcbOvers.forEach((val, idx) => {
+                    const rx = padding + idx * step + 2;
+                    const ry = padding + graphHeight;
+                    const rh = -(val / 24) * graphHeight;
+
+                    ctx.fillStyle = getColor('--accent-green');
+                    ctx.fillRect(rx, ry, barWidth, rh);
+
+                    const cx = rx + barWidth + 2;
+                    const ch = -(cskOvers[idx] / 24) * graphHeight;
+                    ctx.fillStyle = getColor('--accent-gold');
+                    ctx.fillRect(cx, ry, barWidth, ch);
+                });
+            }
+        }
+        const matchVisualizer = new MatchVisualizer();
+    </script>
+
+    <!-- Celebration Engine: confetti and particle controllers -->
+    <script>
+        class CelebrationEngine {
+            constructor() {
+                this.overlay = document.getElementById('event-overlay');
+            }
+
+            trigger(event) {
+                this.resetAll();
+                
+                if (['six', 'four'].includes(event)) {
+                    soundEngine.playHit();
+                    setTimeout(() => soundEngine.playCheer(), 350);
+                } else if (['wicket', 'catch', 'runout', 'stumping', 'lbw'].includes(event)) {
+                    soundEngine.playHit();
+                    if (event === 'wicket') {
+                        setTimeout(() => soundEngine.playCheer(), 100);
+                    }
+                }
+
+                this.overlay.classList.add('active');
+                
+                let activeEl = document.getElementById('ev-generic');
+                if (event === 'six') {
+                    activeEl = document.getElementById('ev-six');
+                    this.confettiSplash();
+                } else if (event === 'four') {
+                    activeEl = document.getElementById('ev-four');
+                } else if (event === 'wicket') {
+                    activeEl = document.getElementById('ev-wicket');
+                    this.strobeFlash();
+                } else if (event === 'catch') {
+                    activeEl = document.getElementById('ev-catch');
+                } else if (event === 'runout') {
+                    activeEl = document.getElementById('ev-runout');
+                    this.strobeFlash();
+                } else if (event === 'lbw') {
+                    activeEl = document.getElementById('ev-lbw');
+                    this.strobeFlash();
+                } else if (event === 'stumping') {
+                    activeEl = document.getElementById('ev-stumping');
+                } else if (event === 'noball') {
+                    activeEl = document.getElementById('ev-noball');
+                } else if (event === 'wide') {
+                    activeEl = document.getElementById('ev-wide');
+                } else if (event === 'toss') {
+                    activeEl = document.getElementById('ev-toss');
+                    const tossText = document.getElementById('toss-result-text');
+                    tossText.textContent = "SPINNING...";
+                    const coin = activeEl.querySelector('.coin');
+                    if (coin) {
+                        coin.style.animation = 'none';
+                        coin.offsetHeight; 
+                        coin.style.animation = 'coin-spin 1.8s ease-out forwards';
+                    }
+                    setTimeout(() => {
+                        const sides = ["CSK WON TOSS (BAT)", "RCB WON TOSS (BOWL)", "CSK WON TOSS (BOWL)", "RCB WON TOSS (BAT)"];
+                        tossText.textContent = sides[Math.floor(Math.random() * sides.length)];
+                    }, 1800);
+                } else if (event === 'timeout') {
+                    activeEl = document.getElementById('ev-timeout');
+                } else if (event === 'drinks') {
+                    activeEl = document.getElementById('ev-drinks');
+                } else if (event === 'innings') {
+                    activeEl = document.getElementById('ev-innings');
+                } else if (event === 'winner') {
+                    activeEl = document.getElementById('ev-winner');
+                    this.megaConfetti();
+                } else if (event === 'pom') {
+                    activeEl = document.getElementById('ev-pom');
+                    this.confettiSplash();
+                } else if (event === 'century') {
+                    activeEl = document.getElementById('ev-century');
+                    this.megaConfetti();
+                } else if (event === 'fifty') {
+                    activeEl = document.getElementById('ev-fifty');
+                    this.confettiSplash();
+                } else if (event === 'hattrick') {
+                    activeEl = document.getElementById('ev-hattrick');
+                    this.megaConfetti();
+                }
+
+                if (activeEl) {
+                    activeEl.classList.add('active');
+                }
+
+                const displayTime = (event === 'toss' || ['winner', 'century', 'hattrick'].includes(event)) ? 3200 : 2200;
+                setTimeout(() => {
+                    this.resetAll();
+                }, displayTime);
+            }
+
+            resetAll() {
+                this.overlay.classList.remove('active');
+                document.body.classList.remove('strobe-flash', 'shake-effect');
+                const cards = this.overlay.querySelectorAll('.event-card');
+                cards.forEach(el => {
+                    el.classList.remove('active');
+                });
+            }
+
+            strobeFlash() {
+                document.body.classList.add('strobe-flash', 'shake-effect');
+            }
+
+            confettiSplash() {
+                confetti({
+                    particleCount: 140,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            megaConfetti() {
+                var duration = 2.5 * 1000;
+                var end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 5,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 }
+                    });
+                    confetti({
+                        particleCount: 5,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 }
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            }
+        }
+        const celebrationEngine = new CelebrationEngine();
+    </script>
+
+    <!-- Navigation & Animated stats counting -->
+    <script>
+        // Setup navigation tabs
+        const navItems = document.querySelectorAll('.nav-item');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const targetTab = item.getAttribute('data-tab');
+                
+                navItems.forEach(n => n.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+
+                item.classList.add('active');
+                const targetPanel = document.getElementById(targetTab);
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                }
+
+                // Initializer redraws when tabs switch
+                if (targetTab === 'visualizer') {
+                    setTimeout(() => matchVisualizer.init(), 100);
+                } else if (targetTab === 'live') {
+                    setTimeout(() => {
+                        matchVisualizer.drawWormChart();
+                        matchVisualizer.drawManhattanChart();
+                    }, 100);
+                }
+            });
+        });
+
+        // Numeric counters animator helper
+        function animateCounter(id, target, speed = 40) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            let current = 0;
+            const step = Math.ceil(target / speed);
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                el.textContent = current.toLocaleString();
+            }, 30);
+        }
+
+        // Theme management
+        function setTheme(theme) {
+            const themeIcon = document.getElementById('sidebar-theme-icon');
+            if (theme === 'light') {
+                document.body.classList.add('light-theme');
+                if (themeIcon) {
+                    themeIcon.setAttribute('data-lucide', 'moon');
+                }
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.body.classList.remove('light-theme');
+                if (themeIcon) {
+                    themeIcon.setAttribute('data-lucide', 'sun');
+                }
+                localStorage.setItem('theme', 'dark');
+            }
+            
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+            
+            const activeItem = document.querySelector('.nav-item.active');
+            if (activeItem) {
+                const activeTab = activeItem.getAttribute('data-tab');
+                if (activeTab === 'visualizer') {
+                    matchVisualizer.init();
+                } else if (activeTab === 'live') {
+                    matchVisualizer.drawWormChart();
+                    matchVisualizer.drawManhattanChart();
+                }
+            }
+            
+            updateThemeButtons();
+        }
+
+        function toggleTheme() {
+            if (document.body.classList.contains('light-theme')) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+        }
+
+        function updateThemeButtons() {
+            const darkBtn = document.getElementById('theme-dark-btn');
+            const lightBtn = document.getElementById('theme-light-btn');
+            if (!darkBtn || !lightBtn) return;
+            
+            if (document.body.classList.contains('light-theme')) {
+                lightBtn.style.borderColor = 'var(--accent-green)';
+                lightBtn.style.background = 'rgba(0, 255, 135, 0.08)';
+                darkBtn.style.borderColor = 'var(--border-glass)';
+                darkBtn.style.background = 'rgba(255, 255, 255, 0.02)';
+            } else {
+                darkBtn.style.borderColor = 'var(--accent-green)';
+                darkBtn.style.background = 'rgba(0, 255, 135, 0.08)';
+                lightBtn.style.borderColor = 'var(--border-glass)';
+                lightBtn.style.background = 'rgba(255, 255, 255, 0.02)';
+            }
+        }
+
+        // Settings API integrations
+        async function loadSettingsFromServer() {
+            try {
+                const response = await fetch('/api/settings');
+                if (response.ok) {
+                    const data = await response.json();
+                    const provider = data.provider;
+                    if (provider === 'Google Gemini API') {
+                        document.getElementById('provider-gemini').checked = true;
+                    } else {
+                        document.getElementById('provider-offline').checked = true;
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to load settings:", err);
+            }
+        }
+
+        async function saveProviderSetting(provider) {
+            try {
+                const response = await fetch('/api/settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ provider: provider })
+                });
+                if (response.ok) {
+                    showSettingsBanner(`Provider switched to ${provider}`);
+                }
+            } catch (err) {
+                console.error("Failed to save settings:", err);
+            }
+        }
+
+        function showSettingsBanner(msg) {
+            const banner = document.getElementById('settings-status-banner');
+            if (banner) {
+                banner.textContent = msg;
+                banner.style.display = 'block';
+                setTimeout(() => {
+                    banner.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Trigger loading rollups
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+            
+            loadSettingsFromServer();
+            lucide.createIcons();
+
+            setTimeout(() => {
+                animateCounter('count-facts', 108, 30);
+                animateCounter('count-modes', 2, 20);
+                animateCounter('count-hits', 342, 40);
+                animateCounter('count-latency', 12, 15);
+            }, 400);
+        });
+    </script>
+
+    <!-- Chat workspace fetch stream implementation -->
+    <script>
+        let chatHistory = [];
+
+        function handleChatSubmitKey(e) {
+            if (e.key === 'Enter') {
+                submitChatMessage();
+            }
+        }
+
+        function submitSuggestion(text) {
+            document.getElementById('chat-input-msg').value = text;
+            submitChatMessage();
+        }
+
+        async function submitChatMessage() {
+            const msgInput = document.getElementById('chat-input-msg');
+            const message = msgInput.value.trim();
+            if (!message) return;
+
+            msgInput.value = "";
+            const chatBox = document.getElementById('chat-stream-box');
+            
+            // Append User message
+            const userBubble = document.createElement('div');
+            userBubble.className = "chat-bubble user";
+            userBubble.textContent = message;
+            chatBox.appendChild(userBubble);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Add cricket-themed ball loader bubble representing assistant thought process
+            const loaderBubble = document.createElement('div');
+            loaderBubble.className = "chat-bubble assistant";
+            loaderBubble.innerHTML = '<span class="ball-loader"></span> Cricket Engine retrieving vectors...';
+            chatBox.appendChild(loaderBubble);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                // Fetch direct API chat route
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        history: chatHistory,
+                        mode: "MCP Agent Mode"
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Remove loader
+                    chatBox.removeChild(loaderBubble);
+                    
+                    // Streaming response output simulator
+                    const assistantBubble = document.createElement('div');
+                    assistantBubble.className = "chat-bubble assistant";
+                    chatBox.appendChild(assistantBubble);
+                    
+                    // Update trace thought logs
+                    document.getElementById('thought-trace-logs').textContent = data.thought_log || "*Standard Retrieval complete.*";
+
+                    const responseText = data.history[data.history.length - 1].content;
+                    chatHistory = data.history;
+
+                    let index = 0;
+                    function typeStream() {
+                        if (index < responseText.length) {
+                            // Add slices of characters to simulate streaming
+                            assistantBubble.textContent += responseText.charAt(index);
+                            index++;
+                            chatBox.scrollTop = chatBox.scrollHeight;
+                            setTimeout(typeStream, 8); // Fast typing pace
+                        }
+                    }
+                    typeStream();
+
+                } else {
+                    chatBox.removeChild(loaderBubble);
+                    const errorBubble = document.createElement('div');
+                    errorBubble.className = "chat-bubble assistant";
+                    errorBubble.textContent = "Error: CricRAG connection failed. Please ensure the backend server is running.";
+                    chatBox.appendChild(errorBubble);
+                }
+            } catch (err) {
+                chatBox.removeChild(loaderBubble);
+                const errorBubble = document.createElement('div');
+                errorBubble.className = "chat-bubble assistant";
+                errorBubble.textContent = `Exception: ${err.message}`;
+                chatBox.appendChild(errorBubble);
+            }
+        }
+    </script>
 </body>
 </html>

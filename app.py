@@ -275,47 +275,47 @@ def search_explorer_ui(query_text):
 CUSTOM_CSS = """
 :root, .dark, .light {
     /* Gradio System Variables Overrides */
-    --background-fill-primary: #FAF7EE !important;
-    --background-fill-secondary: #F5EFE2 !important;
-    --block-background-fill: #ffffff !important;
-    --block-border-color: rgba(53, 168, 224, 0.18) !important;
-    --border-color-primary: rgba(53, 168, 224, 0.18) !important;
-    --border-color-secondary: rgba(53, 168, 224, 0.12) !important;
-    --body-text-color: #1B2E3C !important;
-    --body-text-color-subdued: #5A7184 !important;
-    --block-title-text-color: #1B2E3C !important;
-    --block-label-text-color: #1B2E3C !important;
-    --input-background-fill: #ffffff !important;
-    --input-border-color: rgba(53, 168, 224, 0.18) !important;
-    --input-text-color: #1B2E3C !important;
-    --input-placeholder-color: #5A7184 !important;
-    --button-primary-background-fill: #35A8E0 !important;
-    --button-primary-text-color: #ffffff !important;
-    --button-primary-background-fill-hover: #2086C2 !important;
-    --button-secondary-background-fill: #ffffff !important;
-    --button-secondary-text-color: #1B2E3C !important;
-    --button-secondary-background-fill-hover: #F5EFE2 !important;
-    --neutral-50: #FAF7EE !important;
-    --neutral-100: #F5EFE2 !important;
-    --neutral-200: rgba(53, 168, 224, 0.18) !important;
-    --neutral-300: rgba(53, 168, 224, 0.32) !important;
-    --neutral-400: #5A7184 !important;
-    --neutral-500: #5A7184 !important;
-    --neutral-600: #1B2E3C !important;
-    --neutral-700: #1B2E3C !important;
-    --neutral-800: #1B2E3C !important;
-    --neutral-900: #1B2E3C !important;
-    --neutral-950: #1B2E3C !important;
+    --background-fill-primary: #070913 !important;
+    --background-fill-secondary: #0F132A !important;
+    --block-background-fill: #0F132A !important;
+    --block-border-color: rgba(255, 255, 255, 0.08) !important;
+    --border-color-primary: rgba(255, 255, 255, 0.08) !important;
+    --border-color-secondary: rgba(255, 255, 255, 0.04) !important;
+    --body-text-color: #FFFFFF !important;
+    --body-text-color-subdued: #E2E8F0 !important;
+    --block-title-text-color: #FFFFFF !important;
+    --block-label-text-color: #FFFFFF !important;
+    --input-background-fill: #070913 !important;
+    --input-border-color: rgba(255, 255, 255, 0.08) !important;
+    --input-text-color: #FFFFFF !important;
+    --input-placeholder-color: #E2E8F0 !important;
+    --button-primary-background-fill: #00FF87 !important;
+    --button-primary-text-color: #070913 !important;
+    --button-primary-background-fill-hover: #059669 !important;
+    --button-secondary-background-fill: #0F132A !important;
+    --button-secondary-text-color: #FFFFFF !important;
+    --button-secondary-background-fill-hover: #070913 !important;
+    --neutral-50: #070913 !important;
+    --neutral-100: #0F132A !important;
+    --neutral-200: rgba(255, 255, 255, 0.08) !important;
+    --neutral-300: rgba(255, 255, 255, 0.12) !important;
+    --neutral-400: #E2E8F0 !important;
+    --neutral-500: #E2E8F0 !important;
+    --neutral-600: #FFFFFF !important;
+    --neutral-700: #FFFFFF !important;
+    --neutral-800: #FFFFFF !important;
+    --neutral-900: #FFFFFF !important;
+    --neutral-950: #FFFFFF !important;
 
     /* Custom Theme Variables */
-    --bg: #FAF7EE;
-    --bg-2: #F5EFE2;
-    --panel: rgba(255, 255, 255, 0.82);
-    --panel-strong: #ffffff;
-    --line: rgba(53, 168, 224, 0.18);
-    --line-strong: rgba(53, 168, 224, 0.32);
-    --text: #1B2E3C;
-    --muted: #5A7184;
+    --bg: #070913;
+    --bg-2: #0F132A;
+    --panel: rgba(15, 19, 42, 0.78);
+    --panel-strong: #0F132A;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.12);
+    --text: #FFFFFF;
+    --muted: #E2E8F0;
     --accent: #35A8E0;
     --accent-2: #4AE2B6;
     --accent-3: #F4D068;
@@ -328,14 +328,14 @@ CUSTOM_CSS = """
 }
 
 body {
-    background: #FAF7EE !important;
-    color: #1B2E3C !important;
+    background: #070913 !important;
+    color: #FFFFFF !important;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
 
 .gradio-container {
     background: transparent !important;
-    color: #1B2E3C !important;
+    color: #FFFFFF !important;
 }
 
 body::before {
@@ -343,8 +343,8 @@ body::before {
     position: fixed;
     inset: 0;
     background-image:
-        linear-gradient(rgba(53, 168, 224, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(53, 168, 224, 0.06) 1px, transparent 1px);
+        linear-gradient(rgba(0, 255, 135, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 135, 0.03) 1px, transparent 1px);
     background-size: 72px 72px, 72px 72px;
     mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
     pointer-events: none;
@@ -376,11 +376,11 @@ body::before {
 }
 
 .hero-band {
-    background: #ffffff !important;
+    background: #0F132A !important;
     border: 1px solid var(--line) !important;
     border-radius: 28px !important;
     padding: 24px 26px !important;
-    box-shadow: 0 20px 50px rgba(27, 46, 60, 0.06) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25) !important;
     margin-bottom: 18px !important;
     position: relative !important;
     overflow: hidden !important;
@@ -398,9 +398,9 @@ body::before {
     display: inline-flex !important;
     align-items: center !important;
     gap: 8px !important;
-    border: 1px solid rgba(53, 168, 224, 0.25) !important;
-    background: rgba(53, 168, 224, 0.08) !important;
-    color: #2086C2 !important;
+    border: 1px solid rgba(0, 255, 135, 0.2) !important;
+    background: rgba(0, 255, 135, 0.08) !important;
+    color: var(--accent-green) !important;
     border-radius: 999px !important;
     padding: 7px 12px !important;
     font-size: 0.78rem !important;
@@ -421,7 +421,7 @@ body::before {
     max-width: 11ch !important;
     position: relative !important;
     z-index: 1 !important;
-    color: #1B2E3C !important;
+    color: #FFFFFF !important;
 }
 
 .hero-title span {
@@ -461,7 +461,7 @@ body::before {
 }
 
 .meta-pill strong {
-    color: #1B2E3C !important;
+    color: #FFFFFF !important;
 }
 
 .top-stats {
@@ -494,7 +494,7 @@ body::before {
     font-size: 1.55rem !important;
     font-weight: 800 !important;
     letter-spacing: -0.04em !important;
-    color: #1B2E3C !important;
+    color: #FFFFFF !important;
 }
 
 .stat-text {
@@ -751,7 +751,7 @@ body::before {
 .message-wrap .user,
 [data-testid="user-message"] {
     background: #35A8E0 !important;
-    color: #FAF7EE !important;
+    color: #070913 !important;
     border: 1px solid rgba(255, 255, 255, 0.12) !important;
     box-shadow: 0 8px 24px rgba(53, 168, 224, 0.12) !important;
     font-weight: 500 !important;
@@ -759,7 +759,7 @@ body::before {
 }
 
 .user *, .message .user *, [data-testid="user-message"] * {
-    color: #FAF7EE !important;
+    color: #070913 !important;
 }
 
 .user:hover {
@@ -775,7 +775,7 @@ body::before {
 .message-wrap .bot,
 .message-wrap .assistant,
 [data-testid="bot-message"] {
-    background: #FAF7EE !important;
+    background: #070913 !important;
     color: var(--text) !important;
     border: 1px solid var(--line) !important;
     border-left: 4px solid var(--accent) !important;
@@ -1023,11 +1023,11 @@ body::before {
 .gradio-radio label,
 .gradio-radio .radio-group label,
 #provider-choice label {
-    background: #FAF7EE !important;
+    background: #070913 !important;
     border: 1px solid var(--line) !important;
     border-radius: 10px !important;
     padding: 10px 14px !important;
-    color: #1B2E3C !important;
+    color: #FFFFFF !important;
     cursor: pointer !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -1388,6 +1388,41 @@ def build_app():
 # Create unified FastAPI app
 demo_app = build_app()
 app = FastAPI()
+
+from pydantic import BaseModel
+from typing import List, Optional
+
+class ChatRequest(BaseModel):
+    message: str
+    history: List[dict] = []
+    mode: str = "MCP Agent Mode"
+
+class SettingsRequest(BaseModel):
+    provider: str
+    ollama_endpoint: Optional[str] = "http://localhost:11434"
+
+@app.post("/api/chat")
+def api_chat(req: ChatRequest):
+    settings = load_settings()
+    # Call the chat_response logic
+    new_input, new_history, thought_log = chat_response(req.message, req.history, req.mode, settings)
+    return {
+        "message": new_input,
+        "history": new_history,
+        "thought_log": thought_log
+    }
+
+@app.get("/api/settings")
+def api_get_settings():
+    return load_settings()
+
+@app.post("/api/settings")
+def api_post_settings(req: SettingsRequest):
+    msg = save_settings(req.provider, req.ollama_endpoint)
+    return {
+        "status": "success",
+        "message": msg
+    }
 
 from fastapi.responses import JSONResponse, Response
 
